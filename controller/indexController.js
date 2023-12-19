@@ -8,8 +8,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import { buildCAClient, registerAndEnrollUser, enrollAdmin } from '../../go/src/github.com/fabric-samples/test-application/javascript/CAUtil.js';
-import { buildCCPOrg1, buildCCPOrg2, buildWallet } from '../../go/src/github.com/fabric-samples/test-application/javascript/AppUtil.js';
+import { buildCAClient, registerAndEnrollUser, enrollAdmin } from '../../fabric-samples/test-application/javascript/CAUtil.js';
+import { buildCCPOrg1, buildCCPOrg2, buildWallet } from '../../fabric-samples/test-application/javascript/AppUtil.js';
 
 
 const channelName = process.env.CHANNEL_NAME || 'mychannel';
@@ -19,11 +19,11 @@ const mspOrg1 = 'Org1MSP';
 const walletPath = join(__dirname, '../wallet');
 const org1UserId = 'javascriptAppUser';
 
+
+
 function prettyJSONString(inputString) {
 	return JSON.stringify(JSON.parse(inputString), null, 2);
 }
-
-const GetEnrollAdmin = async (req, res, next) => { };
 
 const GetAssetTransfer = async (req, res, next) => {
 	try {
@@ -38,11 +38,11 @@ const GetAssetTransfer = async (req, res, next) => {
 		const wallet = await buildWallet(Wallets, walletPath);
 
 		// in a real application this would be done on an administrative flow, and only once
-		// await enrollAdmin(caClient, wallet, mspOrg1);
+		await enrollAdmin(caClient, wallet, mspOrg1);
 
 		// in a real application this would be done only when a new user was required to be added
 		// and would be part of an administrative flow
-		// await registerAndEnrollUser(caClient, wallet, mspOrg1, org1UserId, 'org1.department1');
+		await registerAndEnrollUser(caClient, wallet, mspOrg1, org1UserId, 'org1.department1');
 
 		// Create a new gateway instance for interacting with the fabric network.
 		// In a real application this would be done as the backend server session is setup for
@@ -78,7 +78,7 @@ const GetAssetTransfer = async (req, res, next) => {
 			// Let's try a query type operation (function).
 			// This will be sent to just one peer and the results will be shown.
 			// console.log('\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger');
-			let result = await contract.evaluateTransaction('GetAllAssets'); 
+			let result = await contract.evaluateTransaction('GetAllAssets');
 			// console.log(result);
 			res.status(200).json(JSON.parse(result))
 			return
@@ -140,12 +140,26 @@ const GetAssetTransfer = async (req, res, next) => {
 	}
 };
 
+const GetRegister = async (req, res, next) => {
+	res.render('register')
+};
+
+const GetLogin = async (req, res, next) => {
+	res.render('login')
+};
+
 const GetIndex = async (req, res, next) => {
-	res.render('index', { title: 'Express' });
+	res.render('index', {
+		title: 'Restaurantly Bootstrap Template - Index',
+		header: 'header',
+		footer: 'footer'
+	});
 };
 
 const indexController = {
 	GetIndex,
+	GetLogin,
+	GetRegister,
 	GetAssetTransfer,
 };
 

@@ -301,10 +301,11 @@
 
   fullHeight();
 
-
   $(document).on("click", ".toggle-password", function () {
     $(this).toggleClass("fa-eye fa-eye-slash");
     const input = $($(this).attr("toggle"));
     input.attr("type") == "password" ? input.attr("type", "text") : input.attr("type", "password")
   });
+
+  $('.4j1hj41').hide().slideDown(500).delay(1500).slideUp(500);
 })()

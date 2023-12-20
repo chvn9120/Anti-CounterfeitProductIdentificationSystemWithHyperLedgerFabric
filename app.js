@@ -3,6 +3,9 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { engine } from 'express-handlebars';
+import session from 'express-session';
+import 'dotenv/config'
+import connect2db from './database/connect2db.js';
 
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -16,6 +19,7 @@ import apisRouter from './routes/apis.js';
 import productRouter from './routes/product.js';
 
 const app = express();
+connect2db();
 
 // view engine setup
 app.engine(
@@ -32,6 +36,9 @@ app.engine(
       // },
       vndDisplay(money) {
         return money.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+      },
+      displayReturnHomeBtn(errorCode) {
+        return errorCode === 404 ? true : false
       },
       usdDisplay(money) {
         const formatter = new Intl.NumberFormat('en-US', {
@@ -61,10 +68,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
+app.use(
+  session({
+    secret: process.env.SECRET_SS,
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
 
-app.use('/product', productRouter);
 app.use('/apis', apisRouter);
 app.use('/users', usersRouter);
+app.use('/product', productRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
@@ -74,13 +88,11 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  req.session.message = err.message;
+  req.session.error = err;
+  req.session.errorStatus = err.status || 404;
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.redirect('/error');
 });
 
 export default app;

@@ -1,7 +1,10 @@
 'use strict';
-
 import { Gateway, Wallets } from 'fabric-network';
 import FabricCAServices from 'fabric-ca-client';
+import { validationResult, matchedData } from 'express-validator';
+import createError from 'http-errors';
+import bcrypt from 'bcrypt';
+
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -11,7 +14,6 @@ const __dirname = dirname(__filename);
 import { buildCAClient, registerAndEnrollUser, enrollAdmin } from '../../fabric-samples/test-application/javascript/CAUtil.js';
 import { buildCCPOrg1, buildCCPOrg2, buildWallet } from '../../fabric-samples/test-application/javascript/AppUtil.js';
 
-
 const channelName = process.env.CHANNEL_NAME || 'mychannel';
 const chaincodeName = process.env.CHAINCODE_NAME || 'basic';
 
@@ -19,6 +21,7 @@ const mspOrg1 = 'Org1MSP';
 const walletPath = join(__dirname, '../wallet');
 const org1UserId = 'javascriptAppUser';
 
+import UserBase from '../models/user.js';
 
 
 function prettyJSONString(inputString) {
@@ -140,26 +143,126 @@ const GetAssetTransfer = async (req, res, next) => {
 	}
 };
 
+const PostRegister = async (req, res, next) => {
+	const result = validationResult(req);
+
+	if (result.isEmpty()) {
+		const { username, password, confirm_password } = matchedData(req);
+
+		if (password !== confirm_password) {
+			req.session.flash_error = {
+				message: `Your password and confirm password aren't matched!`,
+				type: 'danger',
+			};
+
+			res.redirect('/register')
+			return
+		}
+
+		const existedUser = await UserBase.findOne({ username });
+
+		if (existedUser) {
+			req.session.flash_success = {
+				message: 'User had already existed!',
+				type: 'danger',
+			};
+
+			res.redirect('/register');
+			return
+		}
+
+		const hashedPassword = await bcrypt.hash(password, await bcrypt.genSalt(10));
+		await UserBase.create({ username, password: hashedPassword, });
+
+		res.redirect('/login');
+		return;
+	}
+
+	return next(createError(404, 'Something went wrong in PostRegister (Index Controller)'));
+};
+
 const GetRegister = async (req, res, next) => {
-	res.render('register')
+	if (req.session.flash_error != null) {
+		res.locals.flash = req.session.flash_error;
+		delete req.session.flash_error;
+	}
+
+	if (req.session.flash_success != null) {
+		res.locals.flash = req.session.flash_success;
+		delete req.session.flash_success;
+	}
+
+	res.render('register');
+}
+
+const PostLogin = async (req, res, next) => {
+	const result = validationResult(req);
+
+	if (result.isEmpty()) {
+		const { username, password, isRemember } = matchedData(req);
+		const maxAge = 30 * 24 * 60 * 60 * 1000;
+
+		const currentUser = await UserBase.findOne({ username });
+
+		const matched = await bcrypt.compare(password, currentUser.password);
+
+		if (!matched || !currentUser) return next(createError(422, 'Your username or password was wrong!'));
+
+		if (isRemember === undefined) {
+			// not store on cookie.
+			req.session.user = currentUser;
+			req.session.cookie.maxAge = 3 * 60 * 60 * 1000; // Valid in 3 hours
+		} else {
+			res.cookie('user', { username }, { maxAge, httpOnly: true });
+		}
+
+		req.session.flash_success = {
+			message: `Login successfully! Welcome back <b>${username}</b>!`,
+			type: 'success',
+		};
+
+		res.redirect('/');
+		return;
+	}
+
+	return next(createError(404, 'Something went wrong in PostLogin (Index Controller)'));
 };
 
-const GetLogin = async (req, res, next) => {
-	res.render('login')
+const GetLogin = async (req, res, next) => res.render('login');
+
+const GetLogout = (req, res, next) => {
+	if (req.session.cookie.maxAge) req.session.destroy();
+	if (req.cookies.user) res.clearCookie('user');
+
+	res.redirect('/login');
+	return
 };
 
-const GetIndex = async (req, res, next) => {
+const GetIndex = (req, res, next) => {
+	if (req.session.flash_error != null) {
+		res.locals.flash = req.session.flash_error;
+		delete req.session.flash_error;
+	}
+
+	if (req.session.flash_success != null) {
+		res.locals.flash = req.session.flash_success;
+		delete req.session.flash_success;
+	}
+
 	res.render('index', {
 		title: 'Restaurantly Bootstrap Template - Index',
 		header: 'header',
 		footer: 'footer'
 	});
-};
+}
 
 const indexController = {
 	GetIndex,
 	GetLogin,
+	GetLogout,
+	PostLogin,
 	GetRegister,
+	PostRegister,
 	GetAssetTransfer,
 };
 

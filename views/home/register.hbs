@@ -19,18 +19,18 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
                         <h3 class="mb-4 text-center">REGISTER</h3>
-                        <form action="#" class="signin-form">
+                        <form action="/register" method="post" class="signin-form">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username" required>
+                                <input type="text" class="form-control" placeholder="Username" required name="username">
                             </div>
                             <div class="form-group">
-                                <input id="password-field" type="password" class="form-control" placeholder="Password"
+                                <input id="password-field" type="password" class="form-control" placeholder="Password" name="password"
                                     required>
                                 <span toggle="#password-field"
                                     class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             </div>
                             <div class="form-group">
-                                <input id="confirm-password-field" type="password" class="form-control"
+                                <input id="confirm-password-field" type="password" class="form-control" name="confirm_password"
                                     placeholder="Comfirm password" required>
                                 <span toggle="#confirm-password-field"
                                     class="fa fa-fw fa-eye field-icon toggle-password"></span>

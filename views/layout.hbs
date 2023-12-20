@@ -38,6 +38,14 @@
 
 <body>
   {{{body}}}
+  {{#if flash}}
+  <div class='row'>
+    <div class='alert alert-{{flash.type}} 4j1hj41' style='display: none; position: fixed;
+            top: 42em; right: 1em; z-index: 2; max-width: 400px;'>
+      {{{flash.message}}}
+    </div>
+  </div>
+  {{/if}}
 
   <!-- Vendor JS Files -->
   <script src="/vendor/aos/aos.js"></script>

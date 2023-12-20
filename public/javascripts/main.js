@@ -280,15 +280,15 @@
   const minusButton = $('#button-addon1');
   const plusButton = $('#button-addon2');
 
-  minusButton.click(function () {
+  minusButton.click(() => {
     const currentValue = parseInt(inputField.val());
     if (currentValue > 1) {
       inputField.val(currentValue - 1);
     }
   });
 
-  plusButton.click(function () {
-    var currentValue = parseInt(inputField.val());
+  plusButton.click(() => {
+    const currentValue = parseInt(inputField.val());
     inputField.val(currentValue + 1);
   });
 
@@ -304,7 +304,12 @@
   $(document).on("click", ".toggle-password", function () {
     $(this).toggleClass("fa-eye fa-eye-slash");
     const input = $($(this).attr("toggle"));
-    input.attr("type") == "password" ? input.attr("type", "text") : input.attr("type", "password")
+    
+    if (input.attr("type") == "password") {
+      input.attr("type", "text");
+    } else {
+      input.attr("type", "password");
+    }
   });
 
   $('.4j1hj41').hide().slideDown(500).delay(1500).slideUp(500);

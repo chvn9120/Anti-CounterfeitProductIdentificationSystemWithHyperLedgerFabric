@@ -238,6 +238,78 @@ const GetLogout = (req, res, next) => {
 	return
 };
 
+const brands = [
+	{
+		Name: 'Adidas'
+	},
+	{
+		Name: 'Nike'
+	},
+	{
+		Name: 'Puma'
+	},
+	{
+		Name: 'Vans'
+	}
+];
+
+const products = [
+	{
+		ID: 'asset1',
+		Name: 'Product 1',
+		Brand: 'Adidas',
+		Image: 'product_1',
+		Size: 15,
+		Owner: 'Tomoko',
+		AppraisedValue: 300,
+	},
+	{
+		ID: 'asset2',
+		Name: 'Product 2',
+		Brand: 'Nike',
+		Image: 'product_1',
+		Size: 15,
+		Owner: 'Brad',
+		AppraisedValue: 400,
+	},
+	{
+		ID: 'asset3',
+		Name: 'Product 3',
+		Brand: 'Puma',
+		Image: 'product_1',
+		Size: 15,
+		Owner: 'Jin Soo',
+		AppraisedValue: 500,
+	},
+	{
+		ID: 'asset4',
+		Name: 'Product 4',
+		Brand: 'Vans',
+		Image: 'product_1',
+		Size: 15,
+		Owner: 'Max',
+		AppraisedValue: 600,
+	},
+	{
+		ID: 'asset5',
+		Name: 'Product 5',
+		Brand: 'Nike',
+		Image: 'product_1',
+		Size: 15,
+		Owner: 'Adriana',
+		AppraisedValue: 700,
+	},
+	{
+		ID: 'asset6',
+		Name: 'Product 6',
+		Brand: 'Adias',
+		Image: 'product_1',
+		Size: 15,
+		Owner: 'Michel',
+		AppraisedValue: 800,
+	},
+];
+
 const GetIndex = (req, res, next) => {
 	if (req.session.flash_error != null) {
 		res.locals.flash = req.session.flash_error;
@@ -252,7 +324,9 @@ const GetIndex = (req, res, next) => {
 	res.render('index', {
 		title: 'Restaurantly Bootstrap Template - Index',
 		header: 'header',
-		footer: 'footer'
+		footer: 'footer',
+		brands: brands,
+		products: products
 	});
 }
 

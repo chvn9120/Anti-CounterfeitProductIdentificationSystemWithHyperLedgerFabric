@@ -1,3 +1,7 @@
+const GetOrder = async (req, res, next) => {
+	res.render('order');
+};
+
 const GetCart = async (req, res, next) => {
 	res.render('cart');
 };
@@ -8,7 +12,8 @@ const GetIndex = async (req, res, next) => {
 
 const userController = {
 	GetIndex,
-	GetCart
+	GetCart,
+	GetOrder
 };
 
 export default userController;

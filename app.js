@@ -60,6 +60,7 @@ app.set('views', [
   join(__dirname, 'views/product'),
   join(__dirname, 'views/home'),
   join(__dirname, 'views/error'),
+  join(__dirname, 'views/checkout'),
 ]);
 app.set('view engine', 'hbs');
 
@@ -77,7 +78,7 @@ app.use(
 );
 
 app.use('/apis', apisRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/product', productRouter);
 app.use('/', indexRouter);
 

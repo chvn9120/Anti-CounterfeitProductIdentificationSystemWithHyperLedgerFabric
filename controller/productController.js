@@ -20,10 +20,12 @@ const GetProductById = async (req, res, next) => {
 		}
 
 		req.session.product = found;
+		const currentUser = req.session.user || req.cookies.user;
 
 		res.render('p_detail', {
 			product: found,
 			brand,
+			user: currentUser,
 			header: 'header',
 			footer: 'footer'
 		});

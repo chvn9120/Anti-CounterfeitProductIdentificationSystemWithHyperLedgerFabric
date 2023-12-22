@@ -227,7 +227,7 @@ const PostLogin = async (req, res, next) => {
 			req.session.user = currentUser;
 			req.session.cookie.maxAge = 3 * 60 * 60 * 1000; // Valid in 3 hours
 		} else {
-			res.cookie('user', { username }, { maxAge, httpOnly: true });
+			res.cookie('user', currentUser, { maxAge, httpOnly: true });
 		}
 
 		req.session.flash_success = {
@@ -355,12 +355,15 @@ const GetIndex = async (req, res, next) => {
 	}
 
 	const brands = await BrandBase.find({});
-	const products = await ProductBase.find({});
+	const products = await ProductBase.find({}).sort({ p_id: -1 });
+    const currentUser = req.session.user || req.cookies.user;
 
 	res.render('index', {
 		title: 'DROL YAG',
 		header: 'header',
 		footer: 'footer',
+		isMainPage: true,
+		user: currentUser,
 		brands: mongoose.multipleMongoose2Obj(brands),
 		products: mongoose.multipleMongoose2Obj(products),
 	});

@@ -1762,3 +1762,20 @@ input[type='number'] {
 	appearance: textfield;
 	-moz-appearance: textfield;
 }
+
+.dropdown:hover > .dropdown-menu {
+	display: block;
+	background-color: #eee;
+}
+
+.dropdown-item:hover {
+	background-color: #d9ba85;
+}
+
+.dropdown {
+	direction: rtl;
+}
+
+.dropdown-menu {
+	direction: ltr;
+}

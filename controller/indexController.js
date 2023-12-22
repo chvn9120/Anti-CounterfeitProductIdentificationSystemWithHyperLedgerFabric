@@ -361,6 +361,7 @@ const GetIndex = async (req, res, next) => {
 		title: 'DROL YAG',
 		header: 'header',
 		footer: 'footer',
+		isMainPage: true,
 		brands: mongoose.multipleMongoose2Obj(brands),
 		products: mongoose.multipleMongoose2Obj(products),
 	});

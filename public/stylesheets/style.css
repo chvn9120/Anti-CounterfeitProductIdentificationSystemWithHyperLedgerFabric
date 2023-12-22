@@ -20,7 +20,12 @@ a {
 	text-decoration: none;
 }
 
-a:hover {
+.breadcumbs a {
+	color: #fff;
+}
+
+a:hover,
+.breadcumbs a:hover {
 	color: #d9ba85;
 	text-decoration: none;
 }
@@ -915,7 +920,12 @@ section {
 	font-family: 'Playfair Display', serif;
 }
 
+.menu #menu-flters li a {
+	color: #fff;
+}
+
 .menu #menu-flters li:hover,
+.menu #menu-flters li a:hover,
 .menu #menu-flters li.filter-active {
 	color: #cda45e;
 }
@@ -929,7 +939,7 @@ section {
 }
 
 .menu .menu-img {
-	width: 70px;
+	width: 80px;
 	border-radius: 50%;
 	float: left;
 	border: 5px solid rgba(255, 255, 255, 0.2);
@@ -955,7 +965,8 @@ section {
 	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
-.menu .menu-content a {
+.menu .menu-content a,
+.menu .menu-content a span {
 	padding-right: 10px;
 	background: #1a1814;
 	position: relative;
@@ -965,7 +976,8 @@ section {
 	transition: 0.3s;
 }
 
-.menu .menu-content a:hover {
+.menu .menu-content a:hover,
+.menu .menu-content a span:hover {
 	color: #cda45e;
 }
 

@@ -1,8 +1,14 @@
 {{> (lookup . 'header') }}
 
 <!-- content -->
-<section style="margin-top: 110px; background-color: #1a1814;">
+<section style="margin-top: 70px; background-color: #1a1814;">
     <div class="container">
+        <div class="row gx-5 mb-4">
+            <div class="col-lg-6 breadcumbs">
+                <a href="/"><i class="fas fa-arrow-left"></i> Home </a> <span>/</span> <a
+                    href="/product/{{product._id}}"> {{product.p_name}}</a>
+            </div>
+        </div>
         <div class="row gx-5">
             <aside class="col-lg-6">
                 <div class="border rounded-4 mb-3 d-flex justify-content-center">

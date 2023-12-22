@@ -5,7 +5,7 @@ import userController from '../controller/userController.js';
 
 const router = Router();
 
-router.get('/order', userController.GetOrder);
+router.get('/order', authentication, userController.GetOrder);
 router.get('/cart', authentication, userController.GetCart);
 router.get('/', userController.GetIndex);
 

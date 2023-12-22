@@ -1,58 +1,40 @@
-const datas = [
-	{
-		ID: 'asset1',
-		Color: 'blue',
-		Size: 5,
-		Owner: 'Tomoko',
-		AppraisedValue: 300,
-	},
-	{
-		ID: 'asset2',
-		Color: 'red',
-		Size: 5,
-		Owner: 'Brad',
-		AppraisedValue: 400,
-	},
-	{
-		ID: 'asset3',
-		Color: 'green',
-		Size: 10,
-		Owner: 'Jin Soo',
-		AppraisedValue: 500,
-	},
-	{
-		ID: 'asset4',
-		Color: 'yellow',
-		Size: 10,
-		Owner: 'Max',
-		AppraisedValue: 600,
-	},
-	{
-		ID: 'asset5',
-		Color: 'black',
-		Size: 15,
-		Owner: 'Adriana',
-		AppraisedValue: 700,
-	},
-	{
-		ID: 'asset6',
-		Color: 'white',
-		Size: 15,
-		Owner: 'Michel',
-		AppraisedValue: 800,
-	},
-];
+import createError from 'http-errors';
+import { validationResult, matchedData } from 'express-validator'
 
-const GetIndex = async (req, res, next) => {
-	res.render('p_detail', {
-		jsonData: datas,
-		header: 'header',
-		footer: 'footer'
-	});
+import ProductBase from '../models/product.js'
+import BrandBase from '../models/brand.js'
+
+const GetProductById = async (req, res, next) => {
+	const result = validationResult(req);
+
+	if (result.isEmpty()) {
+		const { id } = matchedData(req);
+		const filter = { p_id: id };
+
+		const found = await ProductBase.findOne(filter).lean();
+		const brand = await BrandBase.findOne({ _id: found.brand_id }).lean();
+
+		if (!found) {
+			req.session.error_404 = `Please check your ID for the product again!`;
+			return next(createError(404, `Error! The roduct with id=${id} does not exist!`));
+		}
+
+		req.session.product = found;
+
+		res.render('p_detail', {
+			product: found,
+			brand,
+			header: 'header',
+			footer: 'footer'
+		});
+		return;
+	}
+
+	return next(createError(404, 'Oops! Error in function GetProductById (Product Controller)!'));
 };
 
 const productController = {
-	GetIndex,
+	GetProductById,
 };
 
 export default productController;

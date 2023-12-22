@@ -4,6 +4,8 @@ import FabricCAServices from 'fabric-ca-client';
 import { validationResult, matchedData } from 'express-validator';
 import createError from 'http-errors';
 import bcrypt from 'bcrypt';
+// import { v2 as cloudinary } from 'cloudinary';
+
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -21,8 +23,20 @@ const mspOrg1 = 'Org1MSP';
 const walletPath = join(__dirname, '../wallet');
 const org1UserId = 'javascriptAppUser';
 
-import UserBase from '../models/user.js';
+// cloudinary.config({
+// 	cloud_name: process.env.CLOUDINARY_NAME,
+// 	api_key: process.env.CLOUDINARY_KEY,
+// 	api_secret: process.env.CLOUDINARY_SECRET,
+// });
 
+import UserBase from '../models/user.js';
+import BrandBase from '../models/brand.js';
+import ProductBase from '../models/product.js';
+
+import seedData from '../utils/seedData.js';
+import adminAccount from '../credentials.js';
+import mongoose from '../utils/mongoose.js';
+import { promiseHooks } from 'v8';
 
 function prettyJSONString(inputString) {
 	return JSON.stringify(JSON.parse(inputString), null, 2);
@@ -238,7 +252,98 @@ const GetLogout = (req, res, next) => {
 	return
 };
 
-const GetIndex = (req, res, next) => {
+
+const GetIndex = async (req, res, next) => {
+	/* Seed admin account */
+	const admin = await UserBase.findOne({ username: adminAccount.username });
+
+	if (!admin) {
+		await UserBase.create({
+			username: adminAccount.username,
+			fullname: `N.V.C Huy`,
+			password: await bcrypt.hash(adminAccount.password, await bcrypt.genSalt(10)),
+			avatar: '/images/default-avt.jpg',
+			role: 'admin',
+		});
+
+		// Professional solution
+		// cloudinary.uploader.upload('./public/images/default-avt.jpg').then(async (response) => {
+		// 	await UserBase.create({
+		// 		username: adminAccount.username,
+		// 		fullname: `N.V.C Huy`,
+		// 		email: `${adminAccount.username}@gmail.com`,
+		// 		password: await bcrypt.hash(adminAccount.username, await bcrypt.genSalt(10)),
+		// 		avatar: response.secure_url,
+		// 		role: 'admin',
+		// 		isLoggedIn4TheFirstTime: true,
+		// 		isChangedPassword4TheFirstTime: true,
+		// 	});
+		// });
+	}
+	/* Seed admin account */
+
+	/* Seed brands */
+	const sizeOfTblBrandBase = (await BrandBase.find({})).length;
+
+	if (sizeOfTblBrandBase === 0) {
+		for (const brand of seedData.seedsBrand) {
+			await BrandBase.create({
+				brand_name: brand.brand_name,
+				display_brand_name: brand.display_brand_name,
+				brand_desc: brand.brand_desc,
+				createdBy: admin._id,
+				createdAt: Date.now()
+			});
+		}
+	}
+	/* Seed brands */
+
+	/* Seed products */
+	const sizeOfTblProductBase = (await ProductBase.find({})).length;
+
+	if (sizeOfTblProductBase === 0) {
+		for (const brand_name in seedData.shoes) {
+			const found = await BrandBase.findOne({ brand_name });
+
+			if (!found) {
+				req.session.error_404 = `Brand with name is "${brand_name}" not found!`;
+				return next(createError(404, ` Error in function GetIndex (Index Controller)!`));
+			}
+
+			let newProduct = null
+
+			for (const i in seedData.shoes[brand_name]) {
+				const response = await fetch(`${seedData.shoes[brand_name][i]}`);
+				const product = await response.json();
+
+				product.short_description.trim() === '...'
+					? newProduct = new ProductBase({
+						p_id: product.id,
+						p_name: product.name.trim(),
+						p_desc: product.description,
+						p_price: product.price,
+						p_thumbnail_image: product.thumbnail_url,
+						brand_id: found._id,
+						brand_name: found.brand_name,
+						createdBy: admin._id,
+					})
+					: newProduct = new ProductBase({
+						p_id: product.id,
+						p_name: product.name.trim(),
+						p_desc: product.short_description,
+						p_price: product.price,
+						p_thumbnail_image: product.thumbnail_url,
+						brand_id: found._id,
+						brand_name: found.brand_name,
+						createdBy: admin._id,
+					});
+
+				await newProduct.save();
+			}
+		}
+	}
+	/* Seed products */
+
 	if (req.session.flash_error != null) {
 		res.locals.flash = req.session.flash_error;
 		delete req.session.flash_error;
@@ -249,11 +354,52 @@ const GetIndex = (req, res, next) => {
 		delete req.session.flash_success;
 	}
 
+	const brands = await BrandBase.find({});
+	const products = await ProductBase.find({});
+
 	res.render('index', {
-		title: 'Restaurantly Bootstrap Template - Index',
+		title: 'DROL YAG',
 		header: 'header',
-		footer: 'footer'
+		footer: 'footer',
+		brands: mongoose.multipleMongoose2Obj(brands),
+		products: mongoose.multipleMongoose2Obj(products),
 	});
+
+	////////////////////// SUCK ////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
+	// let products;
+
+	// try {
+	// 	let { page, size, sort, brand } = matchedData(req)
+
+	// 	if (!page) page = 1;
+
+
+	// 	if (!size) size = 8;
+
+
+	// 	let limit = parseInt(size);
+
+	// 	if (brand !== undefined) {
+	// 		products = await ProductBase.find({ brand_name: brand })
+	// 			.sort({ _id: -1 }).limit(limit);
+	// 	} else {
+	// 		products = await ProductBase.find({})
+	// 			.sort({ _id: -1 }).limit(limit);
+	// 	}
+
+	// 	res.render('index', {
+	// 		title: 'DROL YAG',
+	// 		header: 'header',
+	// 		footer: 'footer',
+	// 		brands: mongoose.multipleMongoose2Obj(brands),
+	// 		products: mongoose.multipleMongoose2Obj(products),
+	// 	});
+	// }
+	// catch (error) {
+	// 	return next(createError(error));
+	// }
+	////////////////////////////////////////////////////////////////////
 }
 
 const indexController = {

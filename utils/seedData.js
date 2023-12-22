@@ -1,114 +1,121 @@
-const tiki_apis = {
-    shoes: {
-        nike: {
-            0: 'https://tiki.vn/api/v2/products/273257519',
-            1: 'https://tiki.vn/api/v2/products/271239272',
-            2: 'https://tiki.vn/api/v2/products/271237487',
-            3: 'https://tiki.vn/api/v2/products/271237261',
-            4: 'https://tiki.vn/api/v2/products/270920270',
-        },
-        bitis: {
-            0: 'https://tiki.vn/api/v2/products/193516534',
-            1: 'https://tiki.vn/api/v2/products/193516882',
-            2: 'https://tiki.vn/api/v2/products/59080455',
-            3: 'https://tiki.vn/api/v2/products/201610129',
-            4: 'https://tiki.vn/api/v2/products/115244909',
-        },
-        anta: {
-            0: 'https://tiki.vn/api/v2/products/191824217',
-            1: 'https://tiki.vn/api/v2/products/271964697',
-            2: 'https://tiki.vn/api/v2/products/270180343',
-            3: 'https://tiki.vn/api/v2/products/270142383',
-            4: 'https://tiki.vn/api/v2/products/194372515',
-        },
-        puma: {
-            0: 'https://tiki.vn/api/v2/products/208293730',
-            1: 'https://tiki.vn/api/v2/products/195866155',
-            2: 'https://tiki.vn/api/v2/products/222593457',
-            3: 'https://tiki.vn/api/v2/products/208639461',
-            4: 'https://tiki.vn/api/v2/products/215717966',
-        },
-        vans: {
-            0: 'https://tiki.vn/api/v2/products/214488566',
-            1: 'https://tiki.vn/api/v2/products/9809445',
-            2: 'https://tiki.vn/api/v2/products/9810452',
-            3: 'https://tiki.vn/api/v2/products/214488566',
-            4: 'https://tiki.vn/api/v2/products/173635791',          
-        },
-        converse: {
-            0: 'https://tiki.vn/api/v2/products/20008606',
-            1: 'https://tiki.vn/api/v2/products/187547435',
-            2: 'https://tiki.vn/api/v2/products/7995370',
-            3: 'https://tiki.vn/api/v2/products/247464513',
-            4: 'https://tiki.vn/api/v2/products/7997237',
-        }
+const shoes = {
+    nike: {
+        0: 'https://tiki.vn/api/v2/products/273257519',
+        1: 'https://tiki.vn/api/v2/products/271239272',
+        2: 'https://tiki.vn/api/v2/products/271237487',
+        3: 'https://tiki.vn/api/v2/products/271237261',
+        4: 'https://tiki.vn/api/v2/products/270920270',
+        5: 'https://tiki.vn/api/v2/products/271238949',
+        6: 'https://tiki.vn/api/v2/products/273269429',
+        7: 'https://tiki.vn/api/v2/products/273269425',
+        8: 'https://tiki.vn/api/v2/products/270918236',
+        9: 'https://tiki.vn/api/v2/products/270919968',
     },
-    handbag: {
-        yuumy: {
-            0: 'https://tiki.vn/api/v2/products/272195426',
-            1: 'https://tiki.vn/api/v2/products/263056736',
-            2: 'https://tiki.vn/api/v2/products/200627574',
-            3: 'https://tiki.vn/api/v2/products/200624228',
-            4: 'https://tiki.vn/api/v2/products/271296041',
-        },
-        bee_gee: {
-            0: 'https://tiki.vn/api/v2/products/199166005',
-            1: 'https://tiki.vn/api/v2/products/270239272',
-            2: 'https://tiki.vn/api/v2/products/243080552',
-            3: 'https://tiki.vn/api/v2/products/263292873',
-            4: 'https://tiki.vn/api/v2/products/263293058',
-        },
-        elley: {
-            0: 'https://tiki.vn/api/v2/products/124393734',
-            1: 'https://tiki.vn/api/v2/products/128869210',
-            2: 'https://tiki.vn/api/v2/products/182813484',
-            3: 'https://tiki.vn/api/v2/products/8114416',
-            4: 'https://tiki.vn/api/v2/products/77590755',
-        }
+    bitis: {
+        0: 'https://tiki.vn/api/v2/products/193516534',
+        1: 'https://tiki.vn/api/v2/products/193516882',
+        2: 'https://tiki.vn/api/v2/products/59080455',
+        3: 'https://tiki.vn/api/v2/products/115244909',
+    },
+    anta: {
+        0: 'https://tiki.vn/api/v2/products/191824217',
+        1: 'https://tiki.vn/api/v2/products/271964697',
+        2: 'https://tiki.vn/api/v2/products/270180343',
+        3: 'https://tiki.vn/api/v2/products/270142383',
+        4: 'https://tiki.vn/api/v2/products/194372515',
+    },
+    puma: {
+        0: 'https://tiki.vn/api/v2/products/208293730',
+        1: 'https://tiki.vn/api/v2/products/195866155',
+        2: 'https://tiki.vn/api/v2/products/222593457',
+        3: 'https://tiki.vn/api/v2/products/208639461',
+        4: 'https://tiki.vn/api/v2/products/215717966',
+    },
+    vans: {
+        0: 'https://tiki.vn/api/v2/products/214488566',
+        1: 'https://tiki.vn/api/v2/products/9809445',
+        2: 'https://tiki.vn/api/v2/products/9810452',
+        3: 'https://tiki.vn/api/v2/products/214488566',
+        4: 'https://tiki.vn/api/v2/products/173635791',
+        5: 'https://tiki.vn/api/v2/products/263292243',
+        6: 'https://tiki.vn/api/v2/products/202284013',
+        7: 'https://tiki.vn/api/v2/products/262061529',
+        8: 'https://tiki.vn/api/v2/products/273349141',
+        9: 'https://tiki.vn/api/v2/products/271197889',
+    },
+    converse: {
+        0: 'https://tiki.vn/api/v2/products/20008606',
+        1: 'https://tiki.vn/api/v2/products/187547435',
+        2: 'https://tiki.vn/api/v2/products/7995370',
+        3: 'https://tiki.vn/api/v2/products/247464513',
+        4: 'https://tiki.vn/api/v2/products/7997237',
     }
 };
 
-const seedsCategory = {
-    0: {
-        category_name: 'apple',
-        category_desc: `Apple Inc. là một công ty công nghệ đa quốc gia của Mỹ có trụ sở tại Cupertino, California. Apple được thành lập vào ngày 1 tháng 4 năm 1976 bởi Steve Wozniak, Steve Jobs và Ronald Wayne với mục đích phát triển và bán máy tính cá nhân Apple I do Wozniak thiết kế. Apple đã trở thành công ty máy tính cá nhân thành công đầu tiên và là người phổ biến giao diện người dùng đồ họa.
-			Các sản phẩm như iPod, iPhone, iPad và Apple Watch đã trở nên vô cùng phổ biến trong thế kỷ 21. Tính đến tháng 3 năm 2023, Apple là công ty lớn nhất thế giới về vốn hóa thị trường. Apple cũng là nhà sản xuất máy tính cá nhân lớn thứ tư về đơn vị bán hàng; công ty sản xuất lớn nhất về doanh thu; và nhà sản xuất điện thoại di động lớn thứ hai trên thế giới.`,
+const seedsBrand = [
+    {
+        brand_name: 'nike',
+        display_brand_name: 'Nike',
+        brand_desc: `Nike là một công ty đa quốc gia của Mỹ chuyên sản xuất và kinh doanh các sản phẩm thể thao, 
+        bao gồm giày dép, quần áo, phụ kiện và thiết bị. Nike được thành lập vào năm 1964 bởi Phil Knight
+        và Bill Bowerman với tên gọi ban đầu là Blue Ribbon Sports. Năm 1971, công ty đổi tên thành Nike,
+        theo tên của nữ thần chiến thắng trong thần thoại Hy Lạp. Biểu tượng của Nike là "swoosh", 
+        một đường cong đơn giản mô phỏng chuyển động của một vận động viên.
+        Nike cũng nổi tiếng với khẩu hiệu "Just Do It" và sự tài trợ cho nhiều vận động viên và đội thể thao hàng đầu thế giới.`,
     },
-    1: {
-        category_name: 'samsung',
-        category_desc: `Samsung (tiếng Hàn: 삼성; RR: samseong) là một tập đoàn đa quốc gia sản xuất hàng hóa của Hàn Quốc có trụ sở tại Samsung Digital City, Suwon, Hàn Quốc. Tập đoàn này bao gồm nhiều công ty liên kết, hầu hết chúng đều thuộc thương hiệu Samsung, và là chaebol (tập đoàn kinh doanh) lớn nhất Hàn Quốc. Samsung được thành lập bởi Lee Byung-chul vào năm 1938 như một công ty thương mại.
-		Trong suốt ba thập kỷ tiếp theo, tập đoàn đã mở rộng vào các lĩnh vực bao gồm chế biến thực phẩm, dệt may, bảo hiểm, chứng khoán và bán lẻ. Samsung đã bước vào ngành công nghiệp điện tử vào cuối những năm 1960 và ngành công nghiệp xây dựng và đóng tàu vào giữa những năm 1970; những lĩnh vực này sẽ thúc đẩy sự phát triển tiếp theo của nó.
-		Samsung chuyên sản xuất một loạt các sản phẩm điện tử tiêu dùng và công nghiệp, bao gồm các thiết bị gia dụng, thiết bị truyền thông số, bán dẫn, chip nhớ và hệ thống tích hợp. Nó đã trở thành một trong những tên tuổi được nhận biết nhất trong công nghệ và sản xuất khoảng một phần năm tổng xuất khẩu của Hàn Quốc.`,
+    {
+        brand_name: `bitis`,
+        display_brand_name: `Biti's`,
+        brand_desc: `Bitis là một thương hiệu giày dép nổi tiếng của Việt Nam, được thành lập vào năm 1982 tại quận 6, 
+        Thành phố Hồ Chí Minh. Bitis sản xuất và kinh doanh nhiều loại giày dép cho nam, nữ và trẻ em, với các dòng sản
+        phẩm như Hunter, Êmbrace, Galaxy, Marvel, Disney và nhiều hơn nữa. Bitis không chỉ phát triển mạnh mẽ trên thị
+        trường trong nước, mà còn xuất khẩu sang hơn 40 quốc gia trên thế giới, trong đó có nhiều thị trường khó tính
+        như Ý, Pháp, Anh, Mỹ, Nhật Bản, Trung Quốc và Mexico. Bitis tự hào là một thương hiệu #PROUDLYMADEINVIETNAM,
+        mang đến cho người tiêu dùng những sản phẩm chất lượng, đẹp mắt và phù hợp với phong cách sống hiện đại.`,
     },
-    2: {
-        category_name: 'xiaomi',
-        category_desc: `Xiaomi Corporation (小米) là một công ty thiết kế và sản xuất điện tử tiêu dùng, phần mềm liên quan, thiết bị gia dụng và phần cứng gia đình của Trung Quốc. Xiaomi được thành lập vào năm 2010 tại Bắc Kinh bởi tỷ phú Lei Jun khi ông 40 tuổi, cùng với sáu cộng sự cao cấp.
-		Xiaomi là nhà sản xuất điện thoại thông minh lớn thứ hai trên thế giới, sau Samsung. Hầu hết các sản phẩm của Xiaomi chạy trên giao diện người dùng MIUI, dựa trên hệ điều hành Android. Công ty được xếp hạng 338 và là công ty trẻ nhất trên Fortune Global 500.
-		Xiaomi đã phát triển một loạt các sản phẩm điện tử tiêu dùng1. Vào năm 2020, công ty đã bán được 146,3 triệu điện thoại thông minh và giao diện người dùng di động MIUI của mình có hơn 500 triệu người dùng hàng tháng. Tính đến năm 2023, Xiaomi là nhà bán lẻ điện thoại thông minh lớn thứ ba trên toàn thế giới, với thị phần khoảng 12%, theo Counterpoint.
-		Xiaomi cũng là một nhà sản xuất lớn của các thiết bị gia dụng bao gồm tivi, đèn pin, máy bay không người lái, và máy lọc không khí sử dụng hệ sinh thái sản phẩm Internet of things và Xiaomi Smart Home của mình. Xiaomi giữ giá cả của mình gần với chi phí sản xuất và chi phí hóa đơn vật liệu của mình bằng cách giữ hầu hết sản phẩm của mình trên thị trường trong 18 tháng, lâu hơn hầu hết các công ty điện thoại thông minh.`,
+    {
+        brand_name: 'anta',
+        display_brand_name: 'Anta',
+        brand_desc: `Anta là một công ty đa quốc gia của Trung Quốc chuyên sản xuất và kinh doanh các sản phẩm thể thao,
+        bao gồm giày dép, quần áo, phụ kiện và thiết bị. Anta được thành lập vào năm 1991 tại Quảng Châu, Trung Quốc,
+        và là một trong những thương hiệu thể thao lớn nhất tại nước này. Anta cũng là nhà tài trợ chính thức cho nhiều đội
+        tuyển quốc gia và vận động viên nổi tiếng thế giới, như đội tuyển bóng rổ Trung Quốc, đội tuyển bóng chuyền Trung Quốc,
+        đội tuyển bóng bàn Trung Quốc, đội tuyển bóng đá Trung Quốc, cầu thủ bóng rổ Klay Thompson, cầu thủ bóng rổ Gordon Hayward,
+        cầu thủ bóng rổ Rajon Rondo và nhiều hơn nữa. Anta có khẩu hiệu là “永不止步Keep Moving” (Không bao giờ dừng lại,
+        Tiếp tục tiến lên), thể hiện tinh thần vượt qua mọi thử thách và phấn đấu cho mục tiêu cao nhất.`,
     },
-    3: {
-        category_name: 'oppo',
-        category_desc: `Oppo là một công ty sản xuất điện tử tiêu dùng của Trung Quốc có trụ sở tại Dongguan, Guangdong1. Các dòng sản phẩm chính của Oppo bao gồm điện thoại thông minh, thiết bị thông minh, thiết bị âm thanh, pin dự phòng và các sản phẩm điện tử khác. Oppo được thành lập vào ngày 10 tháng 10 năm 2004 bởi Tony Chen.
-		Oppo đã trở thành một trong những nhà sản xuất điện thoại thông minh hàng đầu trên thế giới. Tính đến năm 2023, Oppo đã mở rộng kinh doanh của mình đến hơn 60 quốc gia và khu vực trên toàn thế giới. Oppo đã xây dựng một hệ thống đổi mới toàn cầu, khám phá các công nghệ tiên tiến.
-		Oppo cũng là một nhà sản xuất lớn của các thiết bị gia dụng bao gồm tivi, đèn pin, máy bay không người lái, và máy lọc không khí sử dụng hệ sinh thái sản phẩm Internet of things và Xiaomi Smart Home của mình. Oppo giữ giá cả của mình gần với chi phí sản xuất và chi phí hóa đơn vật liệu của mình bằng cách giữ hầu hết sản phẩm của mình trên thị trường trong 18 tháng, lâu hơn hầu hết các công ty điện thoại thông minh.`,
+    {
+        brand_name: 'puma',
+        display_brand_name: 'Puma',
+        brand_desc: `Puma là một công ty đa quốc gia của Đức chuyên sản xuất và kinh doanh các sản phẩm thể thao, 
+        bao gồm giày dép, quần áo, phụ kiện và thiết bị. Puma được thành lập vào năm 1948 bởi Rudolf Dassler, anh trai của Adolf Dassler,
+        người sáng lập Adidas. Puma là một trong những thương hiệu thể thao lớn nhất thế giới, với sự tài trợ cho nhiều vận động 
+        viên và đội thể thao nổi tiếng, như đội tuyển bóng đá Italia, đội tuyển bóng đá Pháp, đội tuyển bóng đá Uruguay, cầu
+        thủ bóng đá Neymar, cầu thủ bóng đá Antoine Griezmann, cầu thủ bóng rổ LaMelo Ball, cầu thủ bóng rổ Kyle Kuzma 
+        và nhiều hơn nữa. Puma cũng có nhiều hợp tác với các nhà thiết kế và nghệ sĩ nổi tiếng, như Rihanna, Selena Gomez, 
+        Cara Delevingne, The Weeknd, J. Cole và nhiều hơn nữa . Puma có khẩu hiệu là “Forever Faster” (Mãi mãi nhanh hơn),
+         thể hiện tinh thần không ngừng cải tiến và sáng tạo của công ty.`,
     },
-    4: {
-        category_name: 'bphone',
-        category_desc: `Bphone là một dòng điện thoại thông minh được sản xuất bởi Bkav Corporation, một công ty có trụ sở tại Việt Nam. Bphone được biết đến với các mẫu như Bphone A85 5G, Bphone A60, và Bphone A502.
-		Bphone A85 5G có giá bán là 9.490.000 VNĐ2. Bphone A60 có giá bán là 5.350.000 VNĐ. Bphone A50 có giá bán là 4.350.000 VNĐ.
-		Ngoài ra, Bkav còn sản xuất các phụ kiện như tai nghe không dây AirB, củ sạc, ốp lưng, và cáp sạc. Bphone được mô tả là nâng tầm nhiếp ảnh điện toán và là thế hệ smartphone bảo mật.`,
+    {
+        brand_name: 'vans',
+        display_brand_name: 'Vans',
+        brand_desc: `Vans là một thương hiệu giày dép nổi tiếng của Mỹ, được thành lập vào năm 1966 tại California bởi Paul 
+        Van Doren và ba người đồng sáng lập khác. Vans chuyên sản xuất và kinh doanh các loại giày dép, quần áo, phụ kiện và 
+        thiết bị liên quan đến văn hóa trượt ván, BMX, lướt sóng và nhạc rock. Vans có nhiều dòng sản phẩm nổi tiếng, như Old
+        Skool, Sk8-Hi, Slip-On, Authentic, Era và nhiều hơn nữa. Vans cũng là nhà tài trợ cho nhiều sự kiện và cuộc thi thể
+        thao hành động, như Vans Warped Tour, Vans Triple Crown Series, Vans Pool Party và nhiều hơn nữa. Vans có khẩu hiệu là
+        “Off The Wall”, thể hiện tinh thần tự do, sáng tạo và khác biệt của thương hiệu.`,
     },
-    5: {
-        category_name: 'vsmart',
-        category_desc: `Vsmart là một thương hiệu điện thoại thông minh của VinSmart, một công ty con của Tập đoàn Vingroup, có trụ sở tại Việt Nam. Vsmart đã sản xuất nhiều mẫu điện thoại thông minh và tivi. Tuy nhiên, gần đây, VinSmart đã quyết định ngừng sản xuất tivi và điện thoại di động để tập trung vào phát triển công nghệ cao cho VinFast.`,
+    {
+        brand_name: 'converse',
+        display_brand_name: 'Converse',
+        brand_desc: `Converse là một thương hiệu giày dép nổi tiếng của Mỹ, được thành lập vào năm 1966 tại California bởi 
+        Paul Van Doren và ba người đồng sáng lập khác. Converse chuyên sản xuất và kinh doanh các loại giày dép, quần áo, 
+        phụ kiện và thiết bị liên quan đến văn hóa trượt ván, BMX, lướt sóng và nhạc rock. Converse có nhiều dòng sản phẩm
+        nổi tiếng, như Old Skool, Sk8-Hi, Slip-On, Authentic, Era và nhiều hơn nữa. Converse cũng là nhà tài trợ cho nhiều 
+        sự kiện và cuộc thi thể thao hành động, như Vans Warped Tour, Vans Triple Crown Series, Vans Pool Party và nhiều hơn nữa. 
+        Converse có khẩu hiệu là “Off The Wall”, thể hiện tinh thần tự do, sáng tạo và khác biệt của thương hiệu.`,
     },
-    6: {
-        category_name: 'vivo',
-        category_desc: `Vivo Communication Technology Co. Ltd. là một công ty công nghệ đa quốc gia của Trung Quốc có trụ sở tại Dongguan, Guangdong. Vivo được thành lập vào ngày 22 tháng 5 năm 2009 bởi Shen Wei. Công ty thiết kế và phát triển điện thoại thông minh, phụ kiện điện thoại thông minh, phần mềm và dịch vụ trực tuyến.
-		Vivo phát triển phần mềm cho điện thoại của mình, được phân phối qua V-Appstore của họ, với iManager được bao gồm trong hệ điều hành dựa trên Android của họ, Origin OS ở Trung Quốc đại lục, và Funtouch OS ở nơi khác. Vivo có 10,000 nhân viên, với 10 trung tâm nghiên cứu và phát triển ở Shenzhen, Dongguan, Nanjing, Bắc Kinh, Hangzhou, Thượng Hải, Xi’an, Đài Bắc, Tokyo, và San Diego.
-		Kể từ khi thành lập vào năm 2009, Vivo đã mở rộng thị trường toàn cầu của mình, phục vụ hơn 400 triệu người dùng với các sản phẩm và dịch vụ di động của mình, đến hơn 60 quốc gia và khu vực1. Vivo đã vào thị trường điện thoại thông minh tại Pakistan vào tháng 6 năm 2017 và thương hiệu Vivo hiện đang trải qua sự tăng trưởng và phổ biến nhanh chóng tại quốc gia này.`,
-    },
-};
+];
 
-export default { tiki_apis, seedsCategory };
+export default { shoes, seedsBrand };

@@ -1779,3 +1779,7 @@ input[type='number'] {
 .dropdown-menu {
 	direction: ltr;
 }
+
+.form-group:has(.error) {
+	margin-bottom: 50px;
+}

@@ -308,4 +308,69 @@
   });
 
   $('.4j1hj41').hide().slideDown(500).delay(1500).slideUp(500);
+  let validPwdField = false, validCPwdField = false
+
+  $('#password-field').on('input', function () {
+    let pwdLen = $(this).val().length;
+
+    if (pwdLen < 6) {
+      validPwdField = false
+
+      if ($(this).closest('.form-group').find('.error').length === 0) {
+        $(this).closest('.form-group').find('.error').remove();
+        // $(this).closest('.form-group')
+        //   .append(`<div class='error' style='position: absolute; top: 50px;' ><p class='text-danger'><i><b>* The password must be longer than 6 characters.</i></b></p></div>`);
+        let errorDiv =
+          $(`<div class='error' style='position: absolute; top: 50px; display: none;'>
+          <p class='text-danger'><i><b>* Mật khẩu phải có ít nhất 6 ký tự</i></b></p></div>`)
+            .hide();
+        $(this).closest('.form-group').append(errorDiv);
+        errorDiv.slideDown();
+      }
+    } else {
+      $(this).closest('.form-group').find('.error').css({ left: 0, opacity: 1 }).animate({
+        left: "50%",
+        opacity: 0
+      }, 500, function () {
+        $(this).remove();
+      });
+
+      validPwdField = true
+    }
+  });
+
+  $('#confirm-password-field').on('input', function () {
+    let cpwdLen = $(this).val().length;
+    let cpwd = $(this).val();
+    let pwd = $('#password-field').val();
+
+    if (cpwd !== pwd) {
+      validCPwdField = false
+      if ($(this).closest('.form-group').find('.error').length === 0) {
+        $(this).closest('.form-group').find('.error').remove();
+
+        let errorDiv =
+          $(`<div class='error' style='position: absolute; top: 50px; display: none;'>
+        <p class='text-danger'><i><b>* Mật khẩu và xác nhận mật khẩu không khớp</i></b></p></div>`)
+            .hide();
+        $(this).closest('.form-group').append(errorDiv);
+        errorDiv.slideDown();
+      }
+    } else {
+      $(this).closest('.form-group').find('.error').css({ left: 0, opacity: 1 }).animate({
+        left: "50%",
+        opacity: 0
+      }, 500, function () {
+        $(this).remove();
+      });
+
+      validCPwdField = true
+    }
+
+    if (validCPwdField && validPwdField) {
+      $('.3j1h51h5').prop('disabled', false)
+    } else {
+      $('.3j1h51h5').prop('disabled', true)
+    }
+  });
 })()

@@ -1,7 +1,7 @@
 {{> (lookup . 'header') }}
 
 <!-- content -->
-<section style="margin-top: 70px; background-color: #1a1814;">
+<section style="margin-top: 120px; background-color: #1a1814;">
     <div class="container">
         <div class="row gx-5 mb-4">
             <div class="col-lg-6 breadcumbs">
@@ -51,7 +51,10 @@
             </aside>
             <main class="col-lg-6">
                 <div class="ps-lg-3">
-                    <h4 class="title mb-3">
+                    <h4 class="title mb-3 p-id" hidden>
+                        {{product.p_id}}
+                    </h4>
+                    <h4 class="title mb-3 p-name">
                         {{product.p_name}}
                     </h4>
                     {{!-- <div class="d-flex flex-row my-3">
@@ -121,9 +124,18 @@
                             </div>
                         </div>
                     </div>
-                    <a href="/user/order" class="btn btn-warning shadow-0"> Buy now </a>
-                    <a href="/user/cart" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart
+                    {{#if user}}
+                    <button type="button" class="btn btn-warning shadow-0  btn-bn">Buy now</button>
+                    <button type="button" class="btn btn-primary shadow-0 btn-a2c"><i
+                            class="me-1 fa fa-shopping-basket"></i>
+                        Add to cart</button>
+                    {{else}}
+                    <a href="/user/order?p_id={{product.p_id}}" class="btn btn-warning shadow-0"> Buy now </a>
+                    <a href="/user/cart?p_id={{product.p_id}}" class="btn btn-primary shadow-0"> <i
+                            class="me-1 fa fa-shopping-basket"></i> Add to cart
                     </a>
+                    {{/if}}
+
                     {{!-- <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i
                             class="me-1 fa fa-heart fa-lg"></i> Save </a> --}}
                 </div>
@@ -319,5 +331,97 @@
         </div>
     </div>
 </section> --}}
+
+<!-- Modal -->
+{{#if displayModal}}
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="staticBackdropLabel">* Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                {{#if orderFunc}}
+                Vui lòng đăng nhập để có thể mua hàng!
+                {{/if}}
+                {{#if cartFunc}}
+                Vui lòng đăng nhập để có thể thêm vào giỏ hàng!
+                {{/if}}
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                {{!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                <a href="/login" class="btn btn-outline-primary">Login Now</a>
+                {{!-- <button type="button" class="btn btn-outline-primary"></button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.modal').modal('show');
+    })
+</script>
+{{/if}}
+
+<div class='row'>
+    <div class='alert alert-success 4j1hj42' style='display: none; position: fixed;
+            top: 42em; right: 1em; z-index: 2; max-width: 400px;'>
+        <span class="alert-message"></span>
+    </div>
+</div>
+
+<script>
+    $('.btn-bn').click(function () {
+        let pQty = $('.p-quantity').val()
+        let p_id = $('.p-id').text().trim()
+        console.log('Btn buy now is clicked')
+        console.log(pQty)
+        console.log(p_id)
+
+        $.post('/user/order', { pQty, p_id }, function (response) {
+            console.log(response)
+        })
+    })
+
+    $('.btn-a2c').click(function () {
+        let pQty = $('.p-quantity').val()
+        let p_id = $('.p-id').text().trim()
+        let p_name = $('.p-name').text().trim()
+
+        console.log('Btn add2cart is clicked')
+        console.log(pQty)
+        console.log(p_id)
+
+        $.post('/user/cart', { pQty, p_id }, function (response) {
+            if (response.OK) {
+                if (!$('.cart-icon').hasClass('.cart-qty')) {
+                    $('.cart-icon').append(`
+                    <div style='position: absolute;
+                        top: -3px;
+                        left: -4px;
+                        background-color: #cda45e;
+                        color: white; 
+                        border-radius: 50%;
+                        width: 17px; 
+                        height: 17px;
+                        display: flex; 
+                        align-items: center;
+                        justify-content: center; 
+                        font-size: 12px;'>
+                        <span class="cart-qty">{{qtyInCart}}</span>
+                    </div>
+                    `)
+                }
+
+                $('.cart-qty').text(response.qtyInCart)
+                $('.alert-message').text(`Thêm sản phẩm ${p_name} vào giỏ hàng thành công!`)
+                $('.4j1hj42').hide().slideDown(500).delay(2000).slideUp(500);
+            }
+        })
+    })
+</script>
 
 {{> (lookup . 'footer') }}

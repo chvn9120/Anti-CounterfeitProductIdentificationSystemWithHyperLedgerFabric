@@ -36,7 +36,7 @@ import ProductBase from '../models/product.js';
 import seedData from '../utils/seedData.js';
 import adminAccount from '../credentials.js';
 import mongoose from '../utils/mongoose.js';
-import { promiseHooks } from 'v8';
+import CartBase from '../models/cart.js';
 
 function prettyJSONString(inputString) {
 	return JSON.stringify(JSON.parse(inputString), null, 2);
@@ -186,7 +186,7 @@ const PostRegister = async (req, res, next) => {
 		}
 
 		const hashedPassword = await bcrypt.hash(password, await bcrypt.genSalt(10));
-		await UserBase.create({ username, password: hashedPassword, });
+		await UserBase.create({ username, password: hashedPassword, avatar: '/images/default_avatar_2.jpg' });
 
 		res.redirect('/login');
 		return;
@@ -205,6 +205,8 @@ const GetRegister = async (req, res, next) => {
 		res.locals.flash = req.session.flash_success;
 		delete req.session.flash_success;
 	}
+
+	delete req.session.isLogin;
 
 	res.render('register');
 }
@@ -230,6 +232,8 @@ const PostLogin = async (req, res, next) => {
 			res.cookie('user', currentUser, { maxAge, httpOnly: true });
 		}
 
+		req.session.isLogin = true;
+
 		req.session.flash_success = {
 			message: `Login successfully! Welcome back <b>${username}</b>!`,
 			type: 'success',
@@ -242,7 +246,10 @@ const PostLogin = async (req, res, next) => {
 	return next(createError(404, 'Something went wrong in PostLogin (Index Controller)'));
 };
 
-const GetLogin = async (req, res, next) => res.render('login');
+const GetLogin = async (req, res, next) => {
+	delete req.session.isLogin;
+	res.render('login');
+}
 
 const GetLogout = (req, res, next) => {
 	if (req.session.cookie.maxAge) req.session.destroy();
@@ -356,7 +363,26 @@ const GetIndex = async (req, res, next) => {
 
 	const brands = await BrandBase.find({});
 	const products = await ProductBase.find({}).sort({ p_id: -1 });
-    const currentUser = req.session.user || req.cookies.user;
+	const currentUser = req.session.user || req.cookies.user;
+	const cart = await CartBase.findOne({ owner: currentUser._id }).lean();
+	let qtyInCart;
+
+	if (cart != undefined) {
+		qtyInCart = cart.product_and_quantity.length;
+
+		res.render('index', {
+			title: 'DROL YAG',
+			header: 'header',
+			footer: 'footer',
+			isMainPage: true,
+			user: currentUser,
+			qtyInCart,
+			brands: mongoose.multipleMongoose2Obj(brands),
+			products: mongoose.multipleMongoose2Obj(products),
+		});
+
+		return
+	}
 
 	res.render('index', {
 		title: 'DROL YAG',

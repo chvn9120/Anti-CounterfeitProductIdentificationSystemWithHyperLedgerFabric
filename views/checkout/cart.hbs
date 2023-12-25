@@ -14,49 +14,58 @@
                         <thead>
                             <tr>
                                 <!-- Set columns width -->
-                                <th class="text-center py-3 px-4" style="min-width: 400px;">Product Name &amp; Details
+                                <th class="text-center  py-3 ">#</th>
+                                <th class="text-center py-3 px-4" style="min-width: 400px;">Tên sản phẩm
                                 </th>
-                                <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
-                                <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
-                                <th class="text-right py-3 px-4" style="width: 100px;">Total</th>
-                                <th class="text-center align-middle py-3 px-0" style="width: fit-content;">Action</th>
+                                <th class="text-right py-3 px-4" style="width: 100px;">Đơn giá</th>
+                                <th class="text-center py-3 px-4" style="width: 120px;">Số lượng</th>
+                                <th class="text-right py-3 px-4" style="width: 100px;">Tổng</th>
+                                <th class="text-center align-middle py-3 px-0" style="width: fit-content;">Hành động
+                                </th>
                                 {{!-- <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
                                         class="shop-tooltip float-none text-light" title=""
                                         data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th> --}}
                             </tr>
                         </thead>
                         <tbody>
-
+                            {{#each itemsInCartVM}}
                             <tr>
+                                <td class="pid" hidden>{{p_id}}</td>
+                                <td class="text-center align-middle">{{@index}}</td>
                                 <td class="p-4">
                                     <div class="media align-items-center d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                class="d-block ui-w-40 ui-bordered" alt="">
+                                            <img src="{{p_thumbnail_image}}" class="d-block ui-w-40 ui-bordered rounded"
+                                                alt="">
+                                            {{!-- <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                class="d-block ui-w-40 ui-bordered" alt=""> --}}
                                         </div>
                                         <div class="media-body flex-grow-1">
-                                            <a href="#" class="d-block text-dark">Product 1</a>
-                                            <small>
+                                            <a href="#" class="d-block text-dark">{{p_name}}</a>
+                                            {{!-- <small>
                                                 <span class="text-muted">Color:</span>
                                                 <span class="ui-product-color ui-product-color-sm align-text-bottom"
                                                     style="background:#e81e2c;"></span> &nbsp;
                                                 <span class="text-muted">Size: </span> EU 37 &nbsp;
                                                 <span class="text-muted">Ships from: </span> China
-                                            </small>
+                                            </small> --}}
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-right font-weight-semibold align-middle p-4">$57.55</td>
-                                <td class="align-middle p-4"><input type="text" class="form-control text-center"
-                                        value="2">
+                                <td class="text-right font-weight-semibold align-middle p-4 p-price"
+                                    value="{{p_price}}">{{vndDisplay p_price}}</td>
+                                <td class="align-middle p-4"><input type="text" class="form-control text-center  p-qty"
+                                        value="{{p_quantity}}">
                                 </td>
-                                <td class="text-right font-weight-semibold align-middle p-4">$115.1</td>
+                                <td class="text-right font-weight-semibold align-middle p-4 total"></td>
                                 <td class="text-center align-middle px-0"><a href="#"
                                         class="shop-tooltip close float-none text-danger" title=""
                                         data-original-title="Remove"><i class="fas fa-trash"></i></a></td>
                             </tr>
+                            {{/each}}
 
-                            <tr>
+
+                            {{!-- <tr>
                                 <td class="p-4">
                                     <div class="media align-items-center d-flex">
                                         <div class="flex-shrink-0">
@@ -109,13 +118,12 @@
                                 <td class="text-center align-middle px-0"><a href="#"
                                         class="shop-tooltip close float-none text-danger" title=""
                                         data-original-title="Remove"><i class="fas fa-trash"></i></a></td>
-                            </tr>
+                            </tr> --}}
 
                         </tbody>
                     </table>
                 </div>
                 <!-- / Shopping cart table -->
-
                 <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
                     <div class="mt-4">
                         <label class="text-muted font-weight-normal">Promocode</label>
@@ -134,11 +142,33 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-lg btn-outline-secondary md-btn-flat" style="margin: 10 15 0 0;">Back to
+                    <button type="button" class="btn btn-lg btn-outline-secondary md-btn-flat"
+                        style="margin: 10 15 0 0;">Back to
                         shopping</button>
-                    <button type="button" class="btn btn-lg btn-outline-primary"  style="margin: 10 0 0 0;">Checkout</button>
+                    <button type="button" class="btn btn-lg btn-outline-primary"
+                        style="margin: 10 0 0 0;">Checkout</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('.p-qty').on('input', function () {
+            let quantity = $(this).val();
+            let price = $(this).closest('tr').find('.p-price').attr('value');
+            let total = quantity * price;
+
+            $(this).closest('tr').find('.total').text(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+
+            let pid = $(this).closest('tr').find('.pid').text()
+
+            $.post('/user/cart', { pQty: quantity, p_id: pid, inCartPage: true }, function (response) {
+                if (response.OK) {
+                    // do something if needed
+                }
+            })
+        });
+
+        $('.p-qty').trigger('input');
+    </script>
 </body>

@@ -393,6 +393,8 @@ const GetIndex = async (req, res, next) => {
 				products: mongoose.multipleMongoose2Obj(products),
 			});
 		}
+
+		return
 	}
 
 	res.render('index', {

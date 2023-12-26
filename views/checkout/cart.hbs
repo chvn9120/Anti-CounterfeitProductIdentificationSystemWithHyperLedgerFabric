@@ -15,12 +15,12 @@
                             <tr>
                                 <!-- Set columns width -->
                                 <th class="text-center  py-3 ">#</th>
-                                <th class="text-center py-3 px-4" style="min-width: 400px;">Tên sản phẩm
+                                <th class="text-center py-3 px-4" style="max-width: 350px;">Tên sản phẩm
                                 </th>
-                                <th class="text-right py-3 px-4" style="width: 100px;">Đơn giá</th>
+                                <th class="text-center py-3 px-4" style="width: 120px;">Đơn giá</th>
                                 <th class="text-center py-3 px-4" style="width: 120px;">Số lượng</th>
-                                <th class="text-right py-3 px-4" style="width: 100px;">Tổng</th>
-                                <th class="text-center align-middle py-3 px-0" style="width: fit-content;">Hành động
+                                <th class="text-center py-3 px-4" style="width: 130px;">Tổng cộng</th>
+                                <th class="text-center align-middle py-3 px-0" style="width: 130px;">Hành động
                                 </th>
                                 {{!-- <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
                                         class="shop-tooltip float-none text-light" title=""
@@ -28,6 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if itemsInCartVM}}
                             {{#each itemsInCartVM}}
                             <tr>
                                 <td class="pid" hidden>{{p_id}}</td>
@@ -54,15 +55,27 @@
                                 </td>
                                 <td class="text-right font-weight-semibold align-middle p-4 p-price"
                                     value="{{p_price}}">{{vndDisplay p_price}}</td>
-                                <td class="align-middle p-4"><input type="text" class="form-control text-center  p-qty"
-                                        value="{{p_quantity}}">
+                                <td class="align-middle p-4"><input type="number"
+                                        class="form-control text-center p-qty" value="{{p_quantity}}" min="0"
+                                        oninput="this.value = Math.abs(Number(this.value))">
                                 </td>
                                 <td class="text-right font-weight-semibold align-middle p-4 total"></td>
-                                <td class="text-center align-middle px-0"><a href="#"
+                                <td class="text-center align-middle px-0"><span
+                                        class="shop-tooltip close float-none text-danger rm-btn" title="Remove button"
+                                        data-original-title="Remove"><i class="fas fa-trash"></i></span></td>
+                                {{!-- <td class="text-center align-middle px-0"><a href="#"
                                         class="shop-tooltip close float-none text-danger" title=""
-                                        data-original-title="Remove"><i class="fas fa-trash"></i></a></td>
+                                        data-original-title="Remove"><i class="fas fa-trash"></i></a></td> --}}
                             </tr>
                             {{/each}}
+                            {{else}}
+                            <tr>
+                                <td colspan='6'>
+                                    <p class="d-flex justify-content-center text-muted"><i>Bạn chưa thêm sản phẩm nào
+                                            vào giỏ hàng!</i></p>
+                                </td>
+                            </tr>
+                            {{/if}}
 
 
                             {{!-- <tr>
@@ -170,5 +183,36 @@
         });
 
         $('.p-qty').trigger('input');
+
+        $('.table tbody').on('click', '.rm-btn', function () {
+            const tr = $(this).closest('tr')
+
+            // ui updated
+            tr.remove();
+
+            // update cart value
+            let pid = tr.find('.pid').text()
+            let quantity = tr.find('.p-qty').val()
+
+            $.post('/user/cart', { pQty: quantity, p_id: pid, delFlag: true }, function (response) {
+                if (response.OK) {
+                    // do something if needed
+                }
+            })
+
+            // ui improvement
+            let rowCount = $('.table tbody tr').length;
+
+            if (rowCount === 0) {
+                $('.table tbody').append(`
+                <tr>
+                    <td colspan='6'>
+                        <p class="d-flex justify-content-center text-muted"><i>Bạn chưa thêm sản phẩm nào
+                                vào giỏ hàng!</i></p>
+                    </td>
+                </tr>
+                `)
+            }
+        });
     </script>
 </body>

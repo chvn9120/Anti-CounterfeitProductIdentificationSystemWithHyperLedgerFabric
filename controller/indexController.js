@@ -364,24 +364,35 @@ const GetIndex = async (req, res, next) => {
 	const brands = await BrandBase.find({});
 	const products = await ProductBase.find({}).sort({ p_id: -1 });
 	const currentUser = req.session.user || req.cookies.user;
-	const cart = await CartBase.findOne({ owner: currentUser._id }).lean();
-	let qtyInCart;
 
-	if (cart != undefined) {
-		qtyInCart = cart.product_and_quantity.length;
+	if (currentUser !== undefined) {
+		const cart = await CartBase.findOne({ owner: currentUser._id }).lean();
+		let qtyInCart;
 
-		res.render('index', {
-			title: 'DROL YAG',
-			header: 'header',
-			footer: 'footer',
-			isMainPage: true,
-			user: currentUser,
-			qtyInCart,
-			brands: mongoose.multipleMongoose2Obj(brands),
-			products: mongoose.multipleMongoose2Obj(products),
-		});
+		if (cart !== null) {
+			qtyInCart = cart.product_and_quantity.length;
 
-		return
+			res.render('index', {
+				title: 'DROL YAG',
+				header: 'header',
+				footer: 'footer',
+				isMainPage: true,
+				user: currentUser,
+				qtyInCart,
+				brands: mongoose.multipleMongoose2Obj(brands),
+				products: mongoose.multipleMongoose2Obj(products),
+			});
+		} else {
+			res.render('index', {
+				title: 'DROL YAG',
+				header: 'header',
+				footer: 'footer',
+				isMainPage: true,
+				user: currentUser,
+				brands: mongoose.multipleMongoose2Obj(brands),
+				products: mongoose.multipleMongoose2Obj(products),
+			});
+		}
 	}
 
 	res.render('index', {
@@ -389,10 +400,10 @@ const GetIndex = async (req, res, next) => {
 		header: 'header',
 		footer: 'footer',
 		isMainPage: true,
-		user: currentUser,
 		brands: mongoose.multipleMongoose2Obj(brands),
 		products: mongoose.multipleMongoose2Obj(products),
 	});
+
 
 	////////////////////// SUCK ////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////

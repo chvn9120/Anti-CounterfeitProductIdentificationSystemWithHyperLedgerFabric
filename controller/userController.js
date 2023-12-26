@@ -13,7 +13,7 @@ const PostOrder = async (req, res, next) => {
 	if (result.isEmpty()) {
 		const { p_id, pQty } = matchedData(req);
 
-		console.log(p_id, pQty);
+		// console.log(p_id, pQty);
 		return
 	}
 
@@ -61,7 +61,8 @@ const PostCart = async (req, res, next) => {
 	const result = validationResult(req);
 
 	if (result.isEmpty()) {
-		let { p_id, pQty, inCartPage } = matchedData(req);
+		let { p_id, pQty, inCartPage, delFlag } = matchedData(req);
+		console.log(delFlag);
 		const filter = { p_id };
 		pQty = Number(pQty)
 
@@ -88,13 +89,13 @@ const PostCart = async (req, res, next) => {
 			return res.status(200).json({ message: 'Thêm vào giỏ hàng thành công', OK: true, qtyInCart: 1 });
 		} else {
 			let inCart = false;
-			console.log(inCartPage);
+			// console.log(inCartPage);
 
 			if (inCartPage) {
 				// change value only
 				for (const o of existedCart.product_and_quantity) {
-					console.log(o.pid);
-					console.log(found._id);
+					// console.log(o.pid);
+					// console.log(found._id);
 
 					if (found._id.toString() === o.pid.toString()) {
 						inCart = true
@@ -110,7 +111,26 @@ const PostCart = async (req, res, next) => {
 				);
 
 				return res.status(200).json({ message: 'Cập nhật giỏ hàng thành công', OK: true });
-			} else {
+			} else if (delFlag) {
+				for (let i = 0; i < existedCart.product_and_quantity.length; i++) {
+					if (found._id.toString() === existedCart.product_and_quantity[i].pid.toString()) {
+						existedCart.product_and_quantity.splice(i, 1);
+						// Decrement i so the next iteration won't skip an item
+						i--;
+					}
+				}
+
+				console.log(existedCart.product_and_quantity);
+
+				await CartBase.findOneAndUpdate(
+					{ _id: existedCart._id },
+					{ product_and_quantity: existedCart.product_and_quantity },
+					{ new: true }
+				);
+
+				return res.status(200).json({ message: 'Cập nhật giỏ hàng thành công', OK: true });
+			}
+			else {
 				// insert existed cart
 				for (const o of existedCart.product_and_quantity) {
 					console.log(o.pid);
@@ -159,23 +179,28 @@ const GetCart = async (req, res, next) => {
 		if (currentUser !== undefined) {
 			const cart = await CartBase.findOne({ owner: currentUser._id }).lean()
 
-			const itemsInCart = cart.product_and_quantity
-			let itemsInCartVM = []
+			if (cart != null) {
+				let itemsInCartVM = []
+				const itemsInCart = cart.product_and_quantity
 
-			for (const item of itemsInCart) {
-				let product = await ProductBase.findOne({ _id: item.pid }).lean()
-				console.log(product);
-				itemsInCartVM.push({
-					p_id: product.p_id,
-					p_name: product.p_name,
-					p_quantity: item.quantity,
-					p_price: product.p_price,
-					p_thumbnail_image: product.p_thumbnail_image
-				})
+				for (const item of itemsInCart) {
+					let product = await ProductBase.findOne({ _id: item.pid }).lean()
+					// console.log(product);
+					itemsInCartVM.push({
+						p_id: product.p_id,
+						p_name: product.p_name,
+						p_quantity: item.quantity,
+						p_price: product.p_price,
+						p_thumbnail_image: product.p_thumbnail_image
+					})
+				}
+
+				res.render('cart', { itemsInCartVM });
+				return;
 			}
 
-			res.render('cart', { itemsInCartVM });
-			return;
+			res.render('cart')
+			return
 		} else {
 			req.session.isLogin = false
 			req.session.cartRoute = true

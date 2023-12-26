@@ -23,6 +23,7 @@ const userSchema = new Schema({
 		type: String,
 		default: 'user',
 	},
+	orders: [{ type: Schema.Types.ObjectId }],
 	isDeleted: { type: Boolean, default: false },
 });
 

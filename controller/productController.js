@@ -23,13 +23,15 @@ const GetProductById = async (req, res, next) => {
 
 		req.session.product = found;
 		const currentUser = req.session.user || req.cookies.user;
-		const cart = await CartBase.findOne({ owner: currentUser._id }).lean();
-		let qtyInCart;
-		if (cart !== null) {
-			qtyInCart = cart.product_and_quantity.length;
-		}
 
 		if (currentUser !== undefined) {
+			const cart = await CartBase.findOne({ owner: currentUser._id }).lean();
+			let qtyInCart;
+
+			if (cart !== null) {
+				qtyInCart = cart.product_and_quantity.length;
+			}
+
 			res.render('p_detail', {
 				product: found,
 				brand,
@@ -58,6 +60,7 @@ const GetProductById = async (req, res, next) => {
 						header: 'header',
 						footer: 'footer'
 					});
+					delete req.session.orderRoute
 				} else if (req.session.cartRoute) {
 					res.render('p_detail', {
 						product: found,
@@ -67,6 +70,7 @@ const GetProductById = async (req, res, next) => {
 						header: 'header',
 						footer: 'footer'
 					});
+					delete req.session.cartRoute
 				} else {
 					res.render('p_detail', {
 						product: found,

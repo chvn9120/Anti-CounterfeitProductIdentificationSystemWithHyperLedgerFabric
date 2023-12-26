@@ -12,6 +12,11 @@ const PostOrder = async (req, res, next) => {
 
 	if (result.isEmpty()) {
 		const { p_id, pQty } = matchedData(req);
+		/**Tasks
+		 * Update product quantity of product
+		 * Change state of cart: isCheckout -> true
+		 * Update list order of user
+		 */
 
 		// console.log(p_id, pQty);
 		return
@@ -30,6 +35,29 @@ const GetOrder = async (req, res, next) => {
 		const currentUser = req.session.user || req.cookies.user;
 
 		if (currentUser !== undefined) {
+
+			const cart = await CartBase.findOne({ owner: currentUser._id }).lean()
+
+			if (cart != null) {
+				let itemsInCartVM = []
+				const itemsInCart = cart.product_and_quantity
+
+				for (const item of itemsInCart) {
+					let product = await ProductBase.findOne({ _id: item.pid }).lean()
+					
+					itemsInCartVM.push({
+						p_id: product.p_id,
+						p_name: product.p_name,
+						p_quantity: item.quantity,
+						p_price: product.p_price,
+						p_thumbnail_image: product.p_thumbnail_image
+					})
+				}
+
+				res.render('order', { itemsInCartVM });
+				return;
+			}
+
 			res.render('order');
 			return;
 		} else {
@@ -62,7 +90,6 @@ const PostCart = async (req, res, next) => {
 
 	if (result.isEmpty()) {
 		let { p_id, pQty, inCartPage, delFlag } = matchedData(req);
-		
 		const filter = { p_id };
 		pQty = Number(pQty)
 

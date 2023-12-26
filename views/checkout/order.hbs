@@ -3,33 +3,24 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row">
             <div class="col-xl-8">
+                {{#if itemsInCartVM}}
+                {{#each itemsInCartVM}}
                 <div class="card border shadow-none">
                     <div class="card-body">
-
                         <div class="d-flex align-items-start border-bottom pb-3">
                             <div class="me-4">
-                                <img src="https://www.bootdey.com/image/380x380/008B8B/000000" alt=""
-                                    class="avatar-lg rounded">
+                                <img src="{{p_thumbnail_image}}" alt="" class="avatar-lg rounded">
                             </div>
                             <div class="flex-grow-1 align-self-center overflow-hidden">
                                 <div>
-                                    <h5 class="text-truncate font-size-18"><a href="#" class="text-dark">Waterproof
-                                            Mobile Phone </a></h5>
-                                    <p class="text-muted mb-0">
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star-half text-warning"></i>
-                                    </p>
-                                    <p class="mb-0 mt-1">Color : <span class="fw-medium">Gray</span></p>
+                                    <h5 class="text-truncate font-size-18"><a href="/product/{{p_id}}"
+                                            class="text-dark">{{p_name}} </a></h5>
                                 </div>
                             </div>
-                            <div class="flex-shrink-0 ms-2">
+                            {{!-- <div class="flex-shrink-0 ms-2">
                                 <ul class="list-inline mb-0 font-size-16">
                                     <li class="list-inline-item">
                                         <a href="#" class="text-muted px-1">
@@ -42,22 +33,24 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mt-3">
-                                        <p class="text-muted mb-2">Price</p>
-                                        <h5 class="mb-0 mt-3"><span class="text-muted me-2"><del
-                                                    class="font-size-16 fw-normal">$500</del></span>$450</h5>
+                                        <span class="text-muted mb-2">Đơn giá: </span>
+                                        <span class="text-muted mb-2 p-price" value="{{p_price}}"><i>{{vndDisplay
+                                                p_price}}</i></span>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="mt-3">
-                                        <p class="text-muted mb-2">Quantity</p>
-                                        <div class="input-group mb-3" style="width: 170px;">
+                                        <span class="text-muted mb-2">Số lượng: </span>
+                                        <span class="text-muted mb-2 p-qty"><i>{{p_quantity}}</i></span>
+
+                                        {{!-- <div class="input-group mb-3" style="width: 170px;">
                                             <button class="btn btn-white border border-secondary px-3" type="button"
                                                 id="button-addon1" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-minus"></i>
@@ -71,7 +64,7 @@
                                                 id="button-addon2" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div> --}}
                                         {{!-- <div class="d-inline-flex">
                                             <select class="form-select form-select-sm w-xl">
                                                 <option value="1">1</option>
@@ -88,8 +81,9 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mt-3">
-                                        <p class="text-muted mb-2">Total</p>
-                                        <h5>$900</h5>
+                                        Tổng:
+                                        <i> <span class="text-muted mb-2 totalARow"></span>
+                                        </i>
                                     </div>
                                 </div>
                             </div>
@@ -97,9 +91,10 @@
 
                     </div>
                 </div>
-                <!-- end card -->
+                {{/each}}
+                {{/if}}
 
-                <div class="card border shadow-none">
+                {{!-- <div class="card border shadow-none">
                     <div class="card-body">
 
                         <div class="d-flex align-items-start border-bottom pb-3">
@@ -175,10 +170,10 @@
                         </div>
 
                     </div>
-                </div>
+                </div> --}}
                 <!-- end card -->
 
-                <div class="card border shadow-none">
+                {{!-- <div class="card border shadow-none">
                     <div class="card-body">
 
                         <div class="d-flex align-items-start border-bottom pb-3">
@@ -253,7 +248,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> --}}
                 <!-- end card -->
 
 
@@ -263,7 +258,7 @@
                 <div class="mt-5 mt-lg-0">
                     <div class="card border shadow-none">
                         <div class="card-header bg-transparent border-bottom py-3 px-4">
-                            <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
+                            <h5 class="font-size-16 mb-0">Tổng quan hóa đơn</h5>
                         </div>
                         <div class="card-body p-4 pt-2">
 
@@ -271,26 +266,26 @@
                                 <table class="table mb-0">
                                     <tbody>
                                         <tr>
-                                            <td>Sub Total :</td>
-                                            <td class="text-end">$ 780</td>
+                                            <td>Tổng tiền hàng:</td>
+                                            <td class="text-end sub-total">$ 780</td>
                                         </tr>
                                         <tr>
-                                            <td>Discount : </td>
+                                            <td>Discount (option) : </td>
                                             <td class="text-end">- $ 78</td>
                                         </tr>
                                         <tr>
-                                            <td>Shipping Charge :</td>
+                                            <td>Shipping Charge (option) :</td>
                                             <td class="text-end">$ 25</td>
                                         </tr>
                                         <tr>
-                                            <td>Estimated Tax : </td>
-                                            <td class="text-end">$ 18.20</td>
+                                            <td>Thuế (VAT): </td>
+                                            <td class="text-end tax"></td>
                                         </tr>
                                         <tr class="bg-light">
-                                            <th>Total :</th>
+                                            <th>Khách phải trả :</th>
                                             <td class="text-end">
-                                                <span class="fw-bold">
-                                                    $ 745.2
+                                                <span class="fw-bold total">
+
                                                 </span>
                                             </td>
                                         </tr>
@@ -303,13 +298,14 @@
 
                     <div class="row my-4">
                         <div class="col-sm-6">
-                            <a href="#" class="btn btn-link text-muted">
-                                <i class="fas fa-arrow-left"></i> Continue Shopping </a>
+                            <a href="/" class="btn btn-link text-muted">
+                                <i class="fas fa-arrow-left"></i> Tiếp tục mua hàng </a>
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end mt-2 mt-sm-0">
-                                <a href="#" class="btn btn-success">
-                                    <i class="fas fa-shopping-cart"></i> Checkout </a>
+                                <button type="button" class="btn btn-success btn-checkout"> <i
+                                        class="fas fa-money-bill-wave"></i>
+                                    Đặt hàng </button>
                             </div>
                         </div>
                     </div>
@@ -318,3 +314,36 @@
         </div>
     </div>
 </body>
+
+<script>
+    const cl = console.log
+    let subTotal = tax = 0;
+
+    $('.totalARow').each(function () {
+        let quantity = $(this).closest('.row').find('.p-qty').text();
+        let price = $(this).closest('.row').find('.p-price').attr('value');
+        let totalARow = quantity * price;
+
+        $(this).text(totalARow.toLocaleString('it-IT', {
+            style: 'currency', currency: 'VND'
+        }));
+
+        subTotal += totalARow
+        $('.sub-total').text(subTotal.toLocaleString('it-IT', {
+            style: 'currency', currency: 'VND'
+        }))
+
+        tax = subTotal * 8 / 100 // 8%
+        $('.tax').text(tax.toLocaleString('it-IT', {
+            style: 'currency', currency: 'VND'
+        }))
+
+        $('.total').text((tax + subTotal).toLocaleString('it-IT', {
+            style: 'currency', currency: 'VND'
+        }))
+    })
+
+    $('.btn-checkout').on('click', function () {
+
+    })
+</script>

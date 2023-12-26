@@ -55,8 +55,8 @@
                                 </td>
                                 <td class="text-right font-weight-semibold align-middle p-4 p-price"
                                     value="{{p_price}}">{{vndDisplay p_price}}</td>
-                                <td class="align-middle p-4"><input type="number"
-                                        class="form-control text-center p-qty" value="{{p_quantity}}" min="0"
+                                <td class="align-middle p-4"><input type="number" class="form-control text-center p-qty"
+                                        value="{{p_quantity}}" min="0"
                                         oninput="this.value = Math.abs(Number(this.value))">
                                 </td>
                                 <td class="text-right font-weight-semibold align-middle p-4 total"></td>
@@ -139,27 +139,25 @@
                 <!-- / Shopping cart table -->
                 <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
                     <div class="mt-4">
-                        <label class="text-muted font-weight-normal">Promocode</label>
+                        <label class="text-muted font-weight-normal">Promocode (Edit Option)</label>
                         <input type="text" placeholder="ABC" class="form-control">
                     </div>
                     <div class="d-flex">
                         <div class="text-right" style="margin: 30 35 0 0;">
-                            <label class="text-muted font-weight-normal" style="margin: 0">Discount</label>
+                            <label class="text-muted font-weight-normal" style="margin: 0">Discount (Edit Option)</label>
                             <div class="text-large"><strong>$20</strong></div>
                         </div>
                         <div class="text-right" style="margin: 30 0 0 0;">
                             <label class="text-muted font-weight-normal" style="margin: 0">Total price</label>
-                            <div class="text-large"><strong>$1164.65</strong></div>
+                            <div class="text-large"><strong class="total-items">0 VND</strong></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-lg btn-outline-secondary md-btn-flat"
-                        style="margin: 10 15 0 0;">Back to
-                        shopping</button>
-                    <button type="button" class="btn btn-lg btn-outline-primary"
-                        style="margin: 10 0 0 0;">Checkout</button>
+                    <a href="/" class="btn btn-lg btn-outline-secondary md-btn-flat" style="margin: 10 15 0 0;">Tiếp tục
+                        mua sắm</a>
+                    <a href="/user/order" class="btn btn-lg btn-outline-primary" style="margin: 10 0 0 0;">Mua hàng</a>
                 </div>
             </div>
         </div>
@@ -167,52 +165,69 @@
 
     <script>
         $('.p-qty').on('input', function () {
-            let quantity = $(this).val();
-            let price = $(this).closest('tr').find('.p-price').attr('value');
-            let total = quantity * price;
+            let total = 0
 
-            $(this).closest('tr').find('.total').text(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            $('.table tbody tr').each(function () {
+                let quantity = $(this).find('.p-qty').val();
+                let price = $(this).find('.p-price').attr('value');
+                let totalARow = quantity * price;
 
-            let pid = $(this).closest('tr').find('.pid').text()
+                $(this).find('.total').text(totalARow.toLocaleString('it-IT', {
+                    style: 'currency', currency: 'VND'
+                }));
 
-            $.post('/user/cart', { pQty: quantity, p_id: pid, inCartPage: true }, function (response) {
-                if (response.OK) {
-                    // do something if needed
-                }
+                let pid = $(this).find('.pid').text()
+
+                $.post('/user/cart', { pQty: quantity, p_id: pid, inCartPage: true }, function (response) {
+                    if (response.OK) {
+                        // do something if needed
+                    }
+                })
+
+                total += totalARow;
+
+                $('.total-items').text(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
             })
+
+
+            $('.table tbody').on('click', '.rm-btn', function () {
+                const tr = $(this).closest('tr')
+
+                // ui updated
+                tr.remove();
+
+                // update cart value
+                let pid = tr.find('.pid').text()
+                let price = tr.find('.p-price').attr('value');
+                let quantity = tr.find('.p-qty').val()
+                let totalARow = price * quantity;
+
+                $.post('/user/cart', { pQty: quantity, p_id: pid, delFlag: true }, function (response) {
+                    if (response.OK) {
+                        // do something if needed
+                    }
+                })
+
+                total -= totalARow;
+
+                $('.total-items').text(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+
+                // ui improvement
+                let rowCount = $('.table tbody tr').length;
+
+                if (rowCount === 0) {
+                    $('.table tbody').append(`
+                        <tr>
+                            <td colspan='6'>
+                                <p class="d-flex justify-content-center text-muted"><i>Bạn chưa thêm sản phẩm nào
+                                        vào giỏ hàng!</i></p>
+                            </td>
+                        </tr>
+                    `)
+                }
+            });
         });
 
         $('.p-qty').trigger('input');
-
-        $('.table tbody').on('click', '.rm-btn', function () {
-            const tr = $(this).closest('tr')
-
-            // ui updated
-            tr.remove();
-
-            // update cart value
-            let pid = tr.find('.pid').text()
-            let quantity = tr.find('.p-qty').val()
-
-            $.post('/user/cart', { pQty: quantity, p_id: pid, delFlag: true }, function (response) {
-                if (response.OK) {
-                    // do something if needed
-                }
-            })
-
-            // ui improvement
-            let rowCount = $('.table tbody tr').length;
-
-            if (rowCount === 0) {
-                $('.table tbody').append(`
-                <tr>
-                    <td colspan='6'>
-                        <p class="d-flex justify-content-center text-muted"><i>Bạn chưa thêm sản phẩm nào
-                                vào giỏ hàng!</i></p>
-                    </td>
-                </tr>
-                `)
-            }
-        });
     </script>
 </body>

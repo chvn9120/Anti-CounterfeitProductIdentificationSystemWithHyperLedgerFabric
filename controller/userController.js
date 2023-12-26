@@ -62,7 +62,7 @@ const PostCart = async (req, res, next) => {
 
 	if (result.isEmpty()) {
 		let { p_id, pQty, inCartPage, delFlag } = matchedData(req);
-		console.log(delFlag);
+		
 		const filter = { p_id };
 		pQty = Number(pQty)
 
@@ -115,12 +115,12 @@ const PostCart = async (req, res, next) => {
 				for (let i = 0; i < existedCart.product_and_quantity.length; i++) {
 					if (found._id.toString() === existedCart.product_and_quantity[i].pid.toString()) {
 						existedCart.product_and_quantity.splice(i, 1);
-						// Decrement i so the next iteration won't skip an item
+						// decrement i so the next iteration won't skip an item
 						i--;
 					}
 				}
 
-				console.log(existedCart.product_and_quantity);
+				// console.log(existedCart.product_and_quantity);
 
 				await CartBase.findOneAndUpdate(
 					{ _id: existedCart._id },
@@ -133,8 +133,8 @@ const PostCart = async (req, res, next) => {
 			else {
 				// insert existed cart
 				for (const o of existedCart.product_and_quantity) {
-					console.log(o.pid);
-					console.log(found._id);
+					// console.log(o.pid);
+					// console.log(found._id);
 
 					if (found._id.toString() === o.pid.toString()) {
 						inCart = true

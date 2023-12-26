@@ -382,17 +382,18 @@ const GetIndex = async (req, res, next) => {
 				brands: mongoose.multipleMongoose2Obj(brands),
 				products: mongoose.multipleMongoose2Obj(products),
 			});
-		} else {
-			res.render('index', {
-				title: 'DROL YAG',
-				header: 'header',
-				footer: 'footer',
-				isMainPage: true,
-				user: currentUser,
-				brands: mongoose.multipleMongoose2Obj(brands),
-				products: mongoose.multipleMongoose2Obj(products),
-			});
+
+			return;
 		}
+		res.render('index', {
+			title: 'DROL YAG',
+			header: 'header',
+			footer: 'footer',
+			isMainPage: true,
+			user: currentUser,
+			brands: mongoose.multipleMongoose2Obj(brands),
+			products: mongoose.multipleMongoose2Obj(products),
+		});
 
 		return
 	}
@@ -406,7 +407,7 @@ const GetIndex = async (req, res, next) => {
 		products: mongoose.multipleMongoose2Obj(products),
 	});
 
-
+	return;
 	////////////////////// SUCK ////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////
 	// let products;

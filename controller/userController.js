@@ -22,7 +22,7 @@ const GetOrderDetail = async (req, res, next) => {
 			let product = await ProductBase.findOne({ _id: p.pid }).lean()
 			products.push({ product, quantity: p.quantity })
 		}
-		
+
 		res.render('o_detail', { order, products })
 		return
 	}
@@ -199,6 +199,10 @@ const PostCart = async (req, res, next) => {
 				product_and_quantity.push({ pid: found._id, quantity: pQty })
 
 			await CartBase.create({ product_and_quantity, owner: currentUser._id })
+
+			if (btn_bn) {
+				return res.status(200).json({ message: 'Thêm vào giỏ hàng thành công', OK: true, redirectTo: '/user/order' });
+			}
 
 			return res.status(200).json({ message: 'Thêm vào giỏ hàng thành công', OK: true, qtyInCart: 1 });
 		} else {

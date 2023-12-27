@@ -6,9 +6,11 @@ import userController from '../controller/userController.js';
 
 const router = Router();
 
-router.post('/order', body('p_id').notEmpty(), body('pQty').notEmpty(), userController.PostOrder);
+router.get('/detail-order/:_id', param('_id'), userController.GetOrderDetail);
+router.get('/list-orders', userController.GetListOrder);
+router.post('/order', userController.PostOrder);
 router.get('/order', query('p_id'), userController.GetOrder);
-router.post('/cart', body('p_id').notEmpty(), body('pQty').notEmpty(), body('inCartPage'), body('delFlag'), userController.PostCart);
+router.post('/cart', body('p_id').notEmpty(), body('pQty').notEmpty(), body('inCartPage'), body('delFlag'), body('btn_bn'), userController.PostCart);
 router.get('/cart', query('p_id'), userController.GetCart);
 router.get('/', userController.GetIndex);
 

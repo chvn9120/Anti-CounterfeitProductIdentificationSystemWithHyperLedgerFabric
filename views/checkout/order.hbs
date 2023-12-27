@@ -258,7 +258,7 @@
                 <div class="mt-5 mt-lg-0">
                     <div class="card border shadow-none">
                         <div class="card-header bg-transparent border-bottom py-3 px-4">
-                            <h5 class="font-size-16 mb-0">Tổng quan hóa đơn</h5>
+                            <h5 class="font-size-16 mb-0">Tổng quan hóa đơn </h5>
                         </div>
                         <div class="card-body p-4 pt-2">
 
@@ -315,6 +315,13 @@
     </div>
 </body>
 
+<div class='row'>
+    <div class='alert alert-success 4j1hj43' style='display: none; position: fixed;
+            top: 42em; right: 1em; z-index: 2; max-width: 400px;'>
+        <span class="alert-message"></span>
+    </div>
+</div>
+
 <script>
     const cl = console.log
     let subTotal = tax = 0;
@@ -344,6 +351,19 @@
     })
 
     $('.btn-checkout').on('click', function () {
+        $.post('/user/order', function (response) {
+            if (response.OK) {
+                // display model checkout
+                $('.alert-message').text(response.message)
 
+                new Promise(resolve => {
+                    $('.4j1hj43').hide().slideDown(500).delay(2000).slideUp(500, resolve);
+                }).then(() => {
+                    // redirect to main page and display popip checkout successful
+                    window.location.href = response.redirectTo
+                });
+            }
+        })
     })
+
 </script>

@@ -51,6 +51,21 @@ app.engine(
         });
 
         return formatter.format(money)
+      },
+      utc2dmy(d) {
+          let date = new Date(d);
+          var dd = date.getDate();
+          var mm = date.getMonth() + 1;
+          var yyyy = date.getFullYear();
+          var hh = date.getHours();
+          var min = date.getMinutes();
+      
+          if (dd < 10) { dd = '0' + dd }
+          if (mm < 10) { mm = '0' + mm }
+          if (hh < 10) { hh = '0' + hh }
+          if (min < 10) { min = '0' + min }
+      
+          return d = hh + ':' + min + ' - ' +dd + '/' + mm + '/' + yyyy
       }
     },
   }),
@@ -61,6 +76,7 @@ app.set('views', [
   join(__dirname, 'views/home'),
   join(__dirname, 'views/error'),
   join(__dirname, 'views/checkout'),
+  join(__dirname, 'views/order'),
 ]);
 app.set('view engine', 'hbs');
 

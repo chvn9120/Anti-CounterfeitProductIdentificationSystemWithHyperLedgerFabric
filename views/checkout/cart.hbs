@@ -56,8 +56,8 @@
                                 <td class="text-right font-weight-semibold align-middle p-4 p-price"
                                     value="{{p_price}}">{{vndDisplay p_price}}</td>
                                 <td class="align-middle p-4"><input type="number" class="form-control text-center p-qty"
-                                        value="{{p_quantity}}" min="0"
-                                        oninput="this.value = Math.abs(Number(this.value))">
+                                        value="{{p_quantity}}" min="1"
+                                        oninput="this.value = (this.value < 1 || this.value == null) ? 1 : Math.abs(Number(this.value))">
                                 </td>
                                 <td class="text-right font-weight-semibold align-middle p-4 total"></td>
                                 <td class="text-center align-middle px-0"><span
@@ -132,7 +132,6 @@
                                         class="shop-tooltip close float-none text-danger" title=""
                                         data-original-title="Remove"><i class="fas fa-trash"></i></a></td>
                             </tr> --}}
-
                         </tbody>
                     </table>
                 </div>

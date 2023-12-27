@@ -14,10 +14,6 @@ const cartSchema = new Schema({
 			},
 		},
 	],
-	isCheckOut: {
-		type: Boolean,
-		default: false,
-	},
 	owner: {
 		type: Schema.Types.ObjectId,
 		require: true,

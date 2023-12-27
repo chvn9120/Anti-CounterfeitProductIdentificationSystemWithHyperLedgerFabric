@@ -373,4 +373,8 @@
       $('.3j1h51h5').prop('disabled', true)
     }
   });
+
+  $(".clickable-row").click(function () {
+    window.location = $(this).data("href");
+  });
 })()

@@ -14,14 +14,6 @@ const orderSchema = new Schema({
 			},
 		},
 	],
-	moneyGivenByCustomer: {
-		type: Number,
-		require: true,
-	},
-	checkOutBy: {
-		type: Schema.Types.ObjectId,
-		require: true,
-	},
 	checkOutAt: { type: Date, default: Date.now },
 });
 

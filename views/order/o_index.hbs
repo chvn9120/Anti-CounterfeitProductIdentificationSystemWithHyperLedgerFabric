@@ -1,0 +1,41 @@
+{{#if orders}}
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Thành lập lúc</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr class='clickable-row' data-href='/user/detail-order/{{_id}}'>
+                <td>{{@index}}</td>
+                <td>{{_id}}</td>
+                <td>{{utc2dmy checkOutAt}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+{{else}}
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Thành lập vào lúc</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3">
+                    <p class="d-flex justify-content-center text-muted"><i>Bạn chưa mua sản phẩm nào!</i></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{{/if}}

@@ -1783,3 +1783,7 @@ input[type='number'] {
 .form-group:has(.error) {
 	margin-bottom: 50px;
 }
+
+.clickable-row:hover {
+	cursor: pointer;
+}

@@ -72,13 +72,14 @@ const PostOrder = async (req, res, next) => {
 			// Update quantity's product
 			let product = await ProductBase.findOne({ _id: o.pid }).lean()
 
-			if (o.quantity - product.p_quantity > 0) {
-				await ProductBase.findOneAndUpdate(
-					{ _id: o._id },
-					{ p_quantity: o.quantity - product.p_quantity },
+			if (product.p_quantity - o.quantity  > 0) {
+				const newProduct = await ProductBase.findOneAndUpdate(
+					{ _id: o.pid },
+					{ p_quantity: product.p_quantity - o.quantity },
 					{ new: true }
 				);
 			}
+			
 
 		}
 

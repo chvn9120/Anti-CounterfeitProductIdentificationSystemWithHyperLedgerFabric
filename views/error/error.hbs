@@ -1,0 +1,49 @@
+<head>
+    <link rel="stylesheet" href="/stylesheets/error.css">
+</head>
+
+<body style="background-color: #0c0b09;">
+    <div class='error-content mt-5'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-12'>
+                    <div class='error-text text-white'>
+                        <h1 class='error' style="margin-bottom: 150px;">{{message}}</h1>
+                        <div class='im-sheep'>
+                            {{!-- <img src="/images/angry-loli.jpg" alt="" width="300px" height="auto"> --}}
+                            <div class='top'>
+                                <div class='body'></div>
+                                <div class='head'>
+                                    <div class='im-eye one'></div>
+                                    <div class='im-eye two'></div>
+                                    <div class='im-ear one'></div>
+                                    <div class='im-ear two'></div>
+                                </div>
+                            </div>
+                            <div class='im-legs'>
+                                <div class='im-leg'></div>
+                                <div class='im-leg'></div>
+                                <div class='im-leg'></div>
+                                <div class='im-leg'></div>
+                            </div>
+                        </div>
+                        <h4><i> Error code: {{{status}}} </i></h4>
+                        <h4><i> Message: {{{error}}} </i></h4>
+                        {{#if (displayReturnHomeBtn status)}}
+                        <a href="/" class="btn btn-default" style="background-color: #cda45e; color: white">Home
+                            Page</a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (Number($('.error').text().length) - 5 > 30) {
+            $(".error").css({
+                fontSize: 50
+            });
+        }
+    </script>
+</body>

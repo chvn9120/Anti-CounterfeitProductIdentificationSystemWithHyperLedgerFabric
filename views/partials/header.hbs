@@ -1,0 +1,146 @@
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-phone d-flex align-items-center"><span>+84 91825749122</span></i>
+            <i class="bi bi-clock d-flex align-items-center ms-4"><span>24/7</span></i>
+        </div>
+    </div>
+</div>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-cente">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+        <h1 class="logo me-auto me-lg-0"><a href="/">DROL-YAG</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="/images/logo.png" alt="" class="img-fluid"></a>-->
+
+
+        {{#if isMainPage}}
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto active" href="#hero">Trang chủ</a></li>
+                <li><a class="nav-link scrollto" href="#about">Giới thiệu</a></li>
+                <li><a class="nav-link scrollto" href="#menu">Sản phẩm</a></li>
+                {{!-- <li><a class="nav-link scrollto" href="#specials">Specials</a></li> --}}
+                <li><a class="nav-link scrollto" href="#events">Sự kiện</a></li>
+                <li><a class="nav-link scrollto" href="#gallery">Phòng trưng bày</a></li>
+                <li><a class="nav-link scrollto" href="#chefs">Thành viên</a></li>
+                {{!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="#">Drop Down 1</a></li>
+                        <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i
+                                    class="bi bi-chevron-right"></i></a>
+                            <ul>
+                                <li><a href="#">Deep Drop Down 1</a></li>
+                                <li><a href="#">Deep Drop Down 2</a></li>
+                                <li><a href="#">Deep Drop Down 3</a></li>
+                                <li><a href="#">Deep Drop Down 4</a></li>
+                                <li><a href="#">Deep Drop Down 5</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Drop Down 2</a></li>
+                        <li><a href="#">Drop Down 3</a></li>
+                        <li><a href="#">Drop Down 4</a></li>
+                    </ul>
+                </li> --}}
+                <li><a class="nav-link scrollto" href="#contact">Liên hệ</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+        <div style="display: flex;">
+            <div style="margin-right: 15px; margin-top: 5px">
+                <a href="#menu" class="book-a-table-btn scrollto d-none d-lg-flex">Mua
+                    hàng</a>
+            </div>
+            <a href="/user/cart">
+                <div class="cart-icon align-middle" style="margin: 5 3 0 0; position: relative;">
+                    <div style='border-radius: 50%; border: 2px solid #cda45e; padding: 11px'>
+                        <span style="color: #d9ba85;"><i class="fas fa-shopping-cart"></i></span>
+                    </div>
+                    {{#if qtyInCart}}
+                    <div style='position: absolute;
+                        top: -3px;
+                        left: -4px;
+                        background-color: #cda45e;
+                        color: white; 
+                        border-radius: 50%;
+                        width: 17px; 
+                        height: 17px;
+                        display: flex; 
+                        align-items: center;
+                        justify-content: center; 
+                        font-size: 12px;'>
+                        <span class="cart-qty">{{qtyInCart}}</span>
+                    </div>
+                    {{/if}}
+                </div>
+            </a>
+            <div class='dropdown show' style="margin-top: 5px;">
+                <div class='d-flex justify-content-end align-middle' id='dropdownMenuLink' data-toggle='dropdown'>
+                    {{#if user}}
+                    <div class="p-1" style='border-radius: 30px; border: 2px solid #cda45e'>
+                        <img style='width: 32px; height: 32px; background-color: transparent; mix-blend-mode: darken;'
+                            class='rounded-circle img-fluid' src="{{user.avatar}}" alt="#" />
+                    </div>
+                    {{/if}}
+                </div>
+                <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
+                    {{#if user}}
+                    <a class='dropdown-item align-middle p-2' href='/user/list-orders'><i class="fas fa-receipt"></i> Hóa đơn của
+                        tôi</a>
+                    <a class='dropdown-item  p-2' href='/logout'><i class='fas fa-sign-out-alt'></i> Đăng xuất</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <div style="display: flex;">
+            <a href="/user/cart">
+                <div class="cart-icon align-middle" style="margin: 5 3 0 0; position: relative;">
+                    <div style='border-radius: 50%; border: 2px solid #cda45e; padding: 11px'>
+                        <span style="color: #d9ba85;"><i class="fas fa-shopping-cart"></i></span>
+                    </div>
+                    {{#if qtyInCart}}
+                    <div style='position: absolute;
+                        top: -3px;
+                        left: -4px;
+                        background-color: #cda45e;
+                        color: white; 
+                        border-radius: 50%;
+                        width: 17px; 
+                        height: 17px;
+                        display: flex; 
+                        align-items: center;
+                        justify-content: center; 
+                        font-size: 12px;'>
+                        <span class="cart-qty">{{qtyInCart}}</span>
+                    </div>
+                    {{/if}}
+                </div>
+            </a>
+            <div class='dropdown show' style="margin-top: 5px;">
+                <div class='d-flex justify-content-end align-middle' id='dropdownMenuLink' data-toggle='dropdown'>
+                    {{#if user}}
+                    <div class="p-1" style='border-radius: 30px; border: 2px solid #cda45e'>
+                        <img style='width: 32px; height: 32px; background-color: transparent; mix-blend-mode: darken;'
+                            class='rounded-circle img-fluid' src="{{user.avatar}}" alt="#" />
+                    </div>
+                    {{/if}}
+                </div>
+                <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
+                    {{#if user}}
+                    <a class='dropdown-item align-middle p-2' href='/user/list-orders'><i class="fas fa-receipt"></i> Hóa đơn của
+                        tôi</a>
+                    <a class='dropdown-item  p-2' href='/logout'><i class='fas fa-sign-out-alt'></i> Đăng xuất</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+    </div>
+</header><!-- End Header -->

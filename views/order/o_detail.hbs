@@ -1,0 +1,17 @@
+{{#if order}}
+<div class="container">
+    <p> Order ID: {{order._id}} </p>
+    <p> Thanh toán lúc: {{utc2dmy order.checkOutAt}} </p>
+
+    <p>Danh sách sản phẩm</p>
+    {{#each products}}
+    <p><span>Index: {{@index}} - </span>
+        <span>ID:{{product._id}} - </span>
+        <span>Name: {{product.p_name}} - </span>
+        <span>Price: {{product.p_price}} - </span>
+        <span>Qty In Order: {{quantity}} - </span>
+        <span>Total: Price * Qty</span>
+    </p>
+    {{/each}}
+</div>
+{{/if}}

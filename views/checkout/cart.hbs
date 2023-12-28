@@ -1,0 +1,235 @@
+<head>
+    <link rel="stylesheet" href="/stylesheets/checkout.cart.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Shopping Cart</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered m-0">
+                        <thead>
+                            <tr>
+                                <!-- Set columns width -->
+                                <th class="text-center  py-3 ">#</th>
+                                <th class="text-center py-3 px-4" style="max-width: 350px;">Tên sản phẩm
+                                </th>
+                                <th class="text-center py-3 px-4" style="width: 120px;">Đơn giá</th>
+                                <th class="text-center py-3 px-4" style="width: 120px;">Số lượng</th>
+                                <th class="text-center py-3 px-4" style="width: 130px;">Tổng cộng</th>
+                                <th class="text-center align-middle py-3 px-0" style="width: 130px;">Hành động
+                                </th>
+                                {{!-- <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
+                                        class="shop-tooltip float-none text-light" title=""
+                                        data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#if itemsInCartVM}}
+                            {{#each itemsInCartVM}}
+                            <tr>
+                                <td class="pid" hidden>{{p_id}}</td>
+                                <td class="text-center align-middle">{{@index}}</td>
+                                <td class="p-4">
+                                    <div class="media align-items-center d-flex">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{p_thumbnail_image}}" class="d-block ui-w-40 ui-bordered rounded"
+                                                alt="">
+                                            {{!-- <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                class="d-block ui-w-40 ui-bordered" alt=""> --}}
+                                        </div>
+                                        <div class="media-body flex-grow-1">
+                                            <a href="#" class="d-block text-dark">{{p_name}}</a>
+                                            {{!-- <small>
+                                                <span class="text-muted">Color:</span>
+                                                <span class="ui-product-color ui-product-color-sm align-text-bottom"
+                                                    style="background:#e81e2c;"></span> &nbsp;
+                                                <span class="text-muted">Size: </span> EU 37 &nbsp;
+                                                <span class="text-muted">Ships from: </span> China
+                                            </small> --}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right font-weight-semibold align-middle p-4 p-price"
+                                    value="{{p_price}}">{{vndDisplay p_price}}</td>
+                                <td class="align-middle p-4"><input type="number" class="form-control text-center p-qty"
+                                        value="{{p_quantity}}" min="1"
+                                        oninput="this.value = (this.value < 1 || this.value == null) ? 1 : Math.abs(Number(this.value))">
+                                </td>
+                                <td class="text-right font-weight-semibold align-middle p-4 total"></td>
+                                <td class="text-center align-middle px-0"><span
+                                        class="shop-tooltip close float-none text-danger rm-btn" title="Remove button"
+                                        data-original-title="Remove"><i class="fas fa-trash"></i></span></td>
+                                {{!-- <td class="text-center align-middle px-0"><a href="#"
+                                        class="shop-tooltip close float-none text-danger" title=""
+                                        data-original-title="Remove"><i class="fas fa-trash"></i></a></td> --}}
+                            </tr>
+                            {{/each}}
+                            {{else}}
+                            <tr>
+                                <td colspan='6'>
+                                    <p class="d-flex justify-content-center text-muted"><i>Bạn chưa thêm sản phẩm nào
+                                            vào giỏ hàng!</i></p>
+                                </td>
+                            </tr>
+                            {{/if}}
+
+
+                            {{!-- <tr>
+                                <td class="p-4">
+                                    <div class="media align-items-center d-flex">
+                                        <div class="flex-shrink-0">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                class="d-block ui-w-40 ui-bordered mr-4" alt="">
+                                        </div>
+                                        <div class="media-body flex-grow-1">
+                                            <a href="#" class="d-block text-dark">Product 2</a>
+                                            <small>
+                                                <span class="text-muted">Color:</span>
+                                                <span class="ui-product-color ui-product-color-sm align-text-bottom"
+                                                    style="background:#000;"></span> &nbsp;
+                                                <span class="text-muted">Storage: </span> 32GB &nbsp;
+                                                <span class="text-muted">Warranty: </span> Standard - 1 year &nbsp;
+                                                <span class="text-muted">Ships from: </span> China
+                                            </small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right font-weight-semibold align-middle p-4">$1049.00</td>
+                                <td class="align-middle p-4"><input type="text" class="form-control text-center"
+                                        value="1">
+                                </td>
+                                <td class="text-right font-weight-semibold align-middle p-4">$1049.00</td>
+                                <td class="text-center align-middle px-0"><a href="#"
+                                        class="shop-tooltip close float-none text-danger" title=""
+                                        data-original-title="Remove"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+
+                            <tr>
+                                <td class="p-4">
+                                    <div class="media align-items-center d-flex">
+                                        <div class="flex-shrink-0">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                class="d-block ui-w-40 ui-bordered" alt="">
+                                        </div>
+                                        <div class="media-body  flex-grow-1">
+                                            <a href="#" class="d-block text-dark">Product 3</a>
+                                            <small>
+                                                <span class="text-muted">Ships from: </span> Germany
+                                            </small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right font-weight-semibold align-middle p-4">$20.55</td>
+                                <td class="align-middle p-4"><input type="text" class="form-control text-center"
+                                        value="1">
+                                </td>
+                                <td class="text-right font-weight-semibold align-middle p-4">$20.55</td>
+                                <td class="text-center align-middle px-0"><a href="#"
+                                        class="shop-tooltip close float-none text-danger" title=""
+                                        data-original-title="Remove"><i class="fas fa-trash"></i></a></td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- / Shopping cart table -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
+                    <div class="mt-4">
+                        <label class="text-muted font-weight-normal">Promocode (Edit Option)</label>
+                        <input type="text" placeholder="ABC" class="form-control">
+                    </div>
+                    <div class="d-flex">
+                        <div class="text-right" style="margin: 30 35 0 0;">
+                            <label class="text-muted font-weight-normal" style="margin: 0">Discount (Edit
+                                Option)</label>
+                            <div class="text-large"><strong>$20</strong></div>
+                        </div>
+                        <div class="text-right" style="margin: 30 0 0 0;">
+                            <label class="text-muted font-weight-normal" style="margin: 0">Total price</label>
+                            <div class="text-large"><strong class="total-items">0 VND</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <a href="/" class="btn btn-lg btn-outline-secondary md-btn-flat" style="margin: 10 15 0 0;">Tiếp tục
+                        mua sắm</a>
+                    <a href="/user/order" class="btn btn-lg btn-outline-primary btn-purchase"
+                        style="margin: 10 0 0 0;">Mua
+                        hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.p-qty').on('input', function () {
+            let total = 0
+
+            $('.table tbody tr').each(function () {
+                let quantity = $(this).find('.p-qty').val();
+                let price = $(this).find('.p-price').attr('value');
+                let totalARow = quantity * price;
+
+                $(this).find('.total').text(totalARow.toLocaleString('it-IT', {
+                    style: 'currency', currency: 'VND'
+                }));
+
+                let pid = $(this).find('.pid').text()
+
+                $.post('/user/cart', { pQty: quantity, p_id: pid, inCartPage: true }, function (response) {
+                    if (response.OK) {
+                        // do something if needed
+                    }
+                })
+
+                total += totalARow;
+
+                $('.total-items').text(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            })
+
+
+            $('.table tbody').on('click', '.rm-btn', function () {
+                const tr = $(this).closest('tr')
+
+                // ui updated
+                tr.remove();
+
+                // update cart value
+                let pid = tr.find('.pid').text()
+                let price = tr.find('.p-price').attr('value');
+                let quantity = tr.find('.p-qty').val()
+                let totalARow = price * quantity;
+
+                $.post('/user/cart', { pQty: quantity, p_id: pid, delFlag: true }, function (response) {
+                    if (response.OK) {
+                        // do something if needed
+                    }
+                })
+
+                total -= totalARow;
+
+                $('.total-items').text(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+
+                // ui improvement
+                let rowCount = $('.table tbody tr').length;
+
+                if (rowCount === 0) {
+                    $('.table tbody').append(`
+                        <tr>
+                            <td colspan='6'>
+                                <p class="d-flex justify-content-center text-muted"><i>Bạn chưa thêm sản phẩm nào
+                                        vào giỏ hàng!</i></p>
+                            </td>
+                        </tr>
+                    `)
+                }
+            });
+        });
+
+        $('.p-qty').trigger('input');
+    </script>
+</body>

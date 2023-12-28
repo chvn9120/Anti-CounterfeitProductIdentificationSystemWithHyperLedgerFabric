@@ -1,41 +1,99 @@
-{{#if orders}}
-<div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Order ID</th>
-                <th scope="col">Thành lập lúc</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each orders}}
-            <tr class='clickable-row' data-href='/user/detail-order/{{_id}}'>
-                <td>{{@index}}</td>
-                <td>{{_id}}</td>
-                <td>{{utc2dmy checkOutAt}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
-{{else}}
-<div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Order ID</th>
-                <th scope="col">Thành lập vào lúc</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="3">
-                    <p class="d-flex justify-content-center text-muted"><i>Bạn chưa mua sản phẩm nào!</i></p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-{{/if}}
+<head>
+    <link rel="stylesheet" href="/stylesheets/order.index.css">
+</head>
+
+<body>
+    {{> (lookup . 'header') }}
+    <section style="margin-top: 120px; background-color: #1a1814;">
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Shopping Bill</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered m-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center py-3 ">#</th>
+                                    <th class="text-center py-3 px-4" style="max-width: 300px;">Mã hóa đơn</th>
+                                    <th class="text-center py-3 px-4" style="width: 250px;">Thời gian lập</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#if orders}}
+                                {{#each orders}}
+                                <tr class='clickable-row' data-href='/user/detail-order/{{_id}}'>
+                                    <td class="text-center align-middle">{{@index}}</td>
+                                    <td class="text-center align-middle">{{_id}}</td>
+                                    <td class="text-center align-middle">{{utc2dmy checkOutAt}}</td>
+                                </tr>
+                                {{/each}}
+                                {{else}}
+                                <tr>
+                                    <td colspan='6'>
+                                        <p class="d-flex justify-content-center text-muted"><i>Bạn chưa chưa có hóa đơn
+                                                nào!</i></p>
+                                    </td>
+                                </tr>
+                                {{/if}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+            {{!-- {{#if orders}}
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Thành lập lúc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each orders}}
+                        <tr class='clickable-row' data-href='/user/detail-order/{{_id}}'>
+                            <td>{{@index}}</td>
+                            <td>{{_id}}</td>
+                            <td>{{utc2dmy checkOutAt}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            {{else}}
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Thành lập vào lúc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">
+                                <p class="d-flex justify-content-center text-muted"><i>Bạn chưa mua sản phẩm nào!</i>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {{/if}} --}}
+
+            
+    </section>
+
+    <br>
+
+    {{> (lookup . 'footer') }}
+
+</body>

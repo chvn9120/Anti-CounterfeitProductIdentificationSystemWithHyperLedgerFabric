@@ -23,7 +23,8 @@ const GetOrderDetail = async (req, res, next) => {
 			products.push({ product, quantity: p.quantity })
 		}
 
-		res.render('o_detail', { order, products })
+		res.render('o_detail', { order, products, header: 'header',
+		footer: 'footer' })
 		return
 	}
 
@@ -36,7 +37,8 @@ const GetListOrder = async (req, res, next) => {
 	const orders = []
 
 	if (user.orders === 0) {
-		res.render('o_index')
+		res.render('o_index', {header: 'header',
+		footer: 'footer'})
 		return
 	}
 
@@ -45,7 +47,8 @@ const GetListOrder = async (req, res, next) => {
 		orders.push(tmp)
 	}
 
-	res.render('o_index', { orders })
+	res.render('o_index', { orders, header: 'header',
+	footer: 'footer' })
 }
 
 const PostOrder = async (req, res, next) => {
@@ -138,11 +141,13 @@ const GetOrder = async (req, res, next) => {
 					})
 				}
 
-				res.render('order', { itemsInCartVM });
+				res.render('order', { itemsInCartVM, header: 'header',
+				footer: 'footer' });
 				return;
 			}
 
-			res.render('order');
+			res.render('order', {header: 'header',
+			footer: 'footer'});
 			return;
 		} else {
 			req.session.isLogin = false
@@ -317,11 +322,14 @@ const GetCart = async (req, res, next) => {
 					})
 				}
 
-				res.render('cart', { itemsInCartVM });
+				res.render('cart', { itemsInCartVM,
+					header: 'header',
+					footer: 'footer' });
 				return;
 			}
 
-			res.render('cart')
+			res.render('cart', {header: 'header',
+			footer: 'footer'})
 			return
 		} else {
 			req.session.isLogin = false

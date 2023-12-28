@@ -3,6 +3,8 @@
 </head>
 
 <body>
+    {{> (lookup . 'header') }}
+    <section style="margin-top: 120px; background-color: #1a1814;">
     <div class="container">
         <div class="row">
             <div class="col-xl-8">
@@ -16,7 +18,9 @@
                             </div>
                             <div class="flex-grow-1 align-self-center overflow-hidden">
                                 <div>
-                                    <h5 class="text-truncate font-size-18"><a href="/product/{{p_id}}"
+                                    <h5 class="text-truncate font-size-18">
+                                        <i># {{p_id}}</i><br><br>
+                                        <a href="/product/{{p_id}}"
                                             class="text-dark">{{p_name}} </a></h5>
                                 </div>
                             </div>
@@ -266,23 +270,23 @@
                                 <table class="table mb-0">
                                     <tbody>
                                         <tr>
-                                            <td>Tổng tiền hàng:</td>
-                                            <td class="text-end sub-total">$ 780</td>
+                                            <td>Tổng tiền hóa đơn:</td>
+                                            <td class="text-end sub-total"></td>
                                         </tr>
-                                        <tr>
+                                        {{!-- <tr>
                                             <td>Discount (option) : </td>
                                             <td class="text-end">- $ 78</td>
                                         </tr>
                                         <tr>
                                             <td>Shipping Charge (option) :</td>
                                             <td class="text-end">$ 25</td>
-                                        </tr>
+                                        </tr> --}}
                                         <tr>
                                             <td>Thuế (VAT): </td>
                                             <td class="text-end tax"></td>
                                         </tr>
                                         <tr class="bg-light">
-                                            <th>Khách phải trả :</th>
+                                            <th>Khách hàng phải trả :</th>
                                             <td class="text-end">
                                                 <span class="fw-bold total">
 
@@ -297,9 +301,9 @@
                     </div>
 
                     <div class="row my-4">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="color: white;">
                             <a href="/" class="btn btn-link text-muted">
-                                <i class="fas fa-arrow-left"></i> Tiếp tục mua hàng </a>
+                                <i class="fas fa-arrow-left" style="color: white;"></i> <i style="color: white;"> Tiếp tục mua hàng</i></a>
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end mt-2 mt-sm-0">
@@ -313,6 +317,13 @@
             </div>
         </div>
     </div>
+
+    </section>
+
+    <br>
+
+    {{> (lookup . 'footer') }}
+
 </body>
 
 <div class='row'>

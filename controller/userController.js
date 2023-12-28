@@ -103,7 +103,7 @@ const PostOrder = async (req, res, next) => {
 			{ new: true }
 		);
 
-		return res.status(200).json({ message: 'Thanh toán thành công!', OK: true, redirectTo: '/' });
+		return res.status(200).json({ message: 'Đặt hàng thành công!', OK: true, redirectTo: '/' });
 	}
 
 	return next(createError(404, 'Oops! Error in function PostOrder (User Controller)!'));

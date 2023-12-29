@@ -7,6 +7,12 @@
     <section style="margin-top: 120px; background-color: #1a1814;">
 
         <div class="container">
+            <div class="row gx-5 mb-4">
+            <div class="col-lg-6 breadcumbs">
+                <a href="/user/list-orders"><i class="fas fa-arrow-left"></i> Back </a><span>/</span> <a
+                    href="/user/detail-order/{{order._id}}"> {{order._id}}</a>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-8">
                 {{#if order}}
@@ -106,13 +112,6 @@
                                 </table>
                             </div>
                             <!-- end table-responsive -->
-                        </div>
-                    </div>
-
-                    <div class="row my-4">
-                        <div class="col-sm-6" style="color: white;">
-                            <a href="/" class="btn btn-link text-muted">
-                                <i class="fas fa-arrow-left" style="color: white;"></i> <i style="color: white;"> Tiếp tục mua hàng</i></a>
                         </div>
                     </div>
                 </div>

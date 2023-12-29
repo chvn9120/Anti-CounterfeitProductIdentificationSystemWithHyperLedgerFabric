@@ -6,6 +6,11 @@
     {{> (lookup . 'header') }}
     <section style="margin-top: 120px; background-color: #1a1814;">
     <div class="container">
+        <div class="row gx-5 mb-4">
+            <div class="col-lg-6 breadcumbs">
+                <a href="/"><i class="fas fa-arrow-left"></i> Home </a>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header">
                 <h3>Shopping Cart</h3>
@@ -44,7 +49,7 @@
                                                 class="d-block ui-w-40 ui-bordered" alt=""> --}}
                                         </div>
                                         <div class="media-body flex-grow-1">
-                                            <a href="#" class="d-block text-dark">{{p_name}}</a>
+                                            <a href="/product/{{p_id}}" class="d-block text-dark">{{p_name}}</a>
                                             {{!-- <small>
                                                 <span class="text-muted">Color:</span>
                                                 <span class="ui-product-color ui-product-color-sm align-text-bottom"
@@ -101,7 +106,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <a href="/" class="btn btn-lg btn-outline-secondary md-btn-flat" style="margin: 10 15 0 0;">Tiếp tục
+                    <a href="/#menu" class="btn btn-lg btn-outline-secondary md-btn-flat" style="margin: 10 15 0 0;">Tiếp tục
                         mua sắm</a>
                     <a href="/user/order" class="btn btn-lg btn-outline-primary btn-purchase"
                         style="margin: 10 0 0 0;">Mua

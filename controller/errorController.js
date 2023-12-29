@@ -1,6 +1,9 @@
 const DisplayErrors = (req, res, next) => {
     const errorStatus = req.session.errorStatus;
     res.locals.message = req.session.message || `Some error occurring!`;
+    
+    if (req.session.orderRoute) delete req.session.orderRoute
+    if (req.session.cartRoute) delete req.session.cartRoute
 
     switch (errorStatus) {
         case 401:

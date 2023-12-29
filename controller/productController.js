@@ -60,6 +60,7 @@ const GetProductById = async (req, res, next) => {
 						header: 'header',
 						footer: 'footer'
 					});
+
 					delete req.session.orderRoute
 				} else if (req.session.cartRoute) {
 					res.render('p_detail', {
@@ -70,6 +71,7 @@ const GetProductById = async (req, res, next) => {
 						header: 'header',
 						footer: 'footer'
 					});
+					
 					delete req.session.cartRoute
 				} else {
 					res.render('p_detail', {

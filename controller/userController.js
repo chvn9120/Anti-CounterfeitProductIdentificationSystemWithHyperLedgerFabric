@@ -1,5 +1,28 @@
 import { validationResult, matchedData } from 'express-validator'
 import createError from 'http-errors';
+import { Gateway, Wallets } from 'fabric-network';
+import FabricCAServices from 'fabric-ca-client';
+
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+import { buildCAClient, registerAndEnrollUser, enrollAdmin } from '../../fabric-samples/test-application/javascript/CAUtil.js';
+import { buildCCPOrg1, buildCCPOrg2, buildWallet } from '../../fabric-samples/test-application/javascript/AppUtil.js';
+
+const channelName = process.env.CHANNEL_NAME || 'mychannel';
+const chaincodeName = process.env.CHAINCODE_NAME || 'basic';
+
+const mspOrg1 = 'Org1MSP';
+const walletPath = join(__dirname, '../wallet');
+const org1UserId = 'javascriptAppUser';
+
+const ccp = buildCCPOrg1();
+const caClient = buildCAClient(FabricCAServices, ccp, 'ca.org1.example.com');
+const wallet = await buildWallet(Wallets, walletPath);
+
 
 import authentication from '../middlewares/authentication.js';
 
@@ -23,11 +46,63 @@ const GetOrderDetail = async (req, res, next) => {
 			products.push({ product, quantity: p.quantity })
 		}
 
-		res.render('o_detail', { order, products })
+		res.render('o_detail', { order, products, header: 'header', footer: 'footer', })
 		return
 	}
 
 	return next(createError(404, 'Oops! Error in function GetOrderDetail (User Controller)!'));
+}
+
+const GetListAsset = async (req, res, next) => {
+	const currentUser = req.session.user || req.cookies.user;
+	const user = await UserBase.findOne({ _id: currentUser._id }).lean()
+	const assets = []
+
+	if (user.assets === 0) {
+		res.render('o_asset', { header: 'header', footer: 'footer', })
+		return
+	}
+
+	for (const asset_id of user.assets) {
+		try {
+			const gateway = new Gateway();
+
+			try {
+				await gateway.connect(ccp, {
+					wallet,
+					identity: org1UserId,
+					discovery: { enabled: true, asLocalhost: true },
+				});
+
+				const network = await gateway.getNetwork(channelName);
+
+				const contract = network.getContract(chaincodeName);
+
+				let result = await contract.evaluateTransaction('ReadAsset', asset_id);
+				let jsonAsset = JSON.parse(result)
+				let product = await ProductBase.findOne({ p_id: jsonAsset.p_id, }).lean()
+
+				assets.push({
+					ID: jsonAsset.ID,
+					docType: jsonAsset.docType,
+					owner: jsonAsset.owner,
+					p_id: jsonAsset.p_id,
+					p_brand: jsonAsset.p_brand,
+					p_name: jsonAsset.p_name,
+					price: jsonAsset.price,
+					time: jsonAsset.time,
+					p_thumbnail_image: product.p_thumbnail_image
+				})
+			} finally {
+				gateway.disconnect();
+			}
+		} catch (error) {
+			console.error(`******** FAILED to run the application: ${error}`);
+			process.exit(1);
+		}
+	}
+
+	return res.render('o_asset', { assets, header: 'header', footer: 'footer', })
 }
 
 const GetListOrder = async (req, res, next) => {
@@ -45,7 +120,7 @@ const GetListOrder = async (req, res, next) => {
 		orders.push(tmp)
 	}
 
-	res.render('o_index', { orders })
+	res.render('o_index', { orders, header: 'header', footer: 'footer', })
 }
 
 const PostOrder = async (req, res, next) => {
@@ -58,29 +133,77 @@ const PostOrder = async (req, res, next) => {
 	 * Empty items in cart
 	 * Create new order
 	 * Update the orders property of user
-	 * -- Tasks --
+	 * -- Tasks --	
+	 * -- New tasks --
+	 * Update the p_assetID of product (shift)
+	 * Update owner from webname to username on blockchain network
+	 * Update assets of user
+	 * -- New tasks --
 	 */
 	if (result.isEmpty()) {
 		const currentUser = req.session.user || req.cookies.user;
 		const cart = await CartBase.findOne({ owner: currentUser._id }).lean();
 		const user = await UserBase.findOne({ _id: currentUser._id }).lean()
+		let arrayAssetsPaid = user.assets
 		let orders = user.orders
-
 
 		// Get all items in cart
 		for (const o of cart.product_and_quantity) {
-			// Update quantity's product
 			let product = await ProductBase.findOne({ _id: o.pid }).lean()
 
-			if (product.p_quantity - o.quantity  > 0) {
-				const newProduct = await ProductBase.findOneAndUpdate(
+			if (product.p_quantity - o.quantity > 0) {
+				let i = 0
+
+				while (i < o.quantity) {
+					let tmp = product.p_assetID.shift()
+					arrayAssetsPaid.push(tmp)
+					i++
+				}
+
+				// Update quantity's product
+				// Update the p_assetID of product (shift)
+				await ProductBase.findOneAndUpdate(
 					{ _id: o.pid },
-					{ p_quantity: product.p_quantity - o.quantity },
+					{
+						p_quantity: product.p_quantity - o.quantity,
+						p_assetID: product.p_assetID,
+					},
 					{ new: true }
 				);
-			}
-			
 
+				// Update owner from webname to username on blockchain network
+				try {
+					const gateway = new Gateway();
+
+					try {
+						await gateway.connect(ccp, {
+							wallet,
+							identity: org1UserId,
+							discovery: { enabled: true, asLocalhost: true },
+						});
+
+						const network = await gateway.getNetwork(channelName);
+
+						const contract = network.getContract(chaincodeName);
+
+						for (const assetID of arrayAssetsPaid) {
+							await contract.submitTransaction('TransferAsset', assetID, currentUser.username);
+						}
+					} finally {
+						gateway.disconnect();
+					}
+				} catch (error) {
+					console.error(`******** FAILED to run the application: ${error}`);
+					process.exit(1);
+				}
+
+				// Update assets of user
+				const newUSer = await UserBase.findOneAndUpdate(
+					{ _id: currentUser._id },
+					{ assets: arrayAssetsPaid },
+					{ new: true }
+				)
+			}
 		}
 
 		// Create new order
@@ -102,6 +225,7 @@ const PostOrder = async (req, res, next) => {
 			{ product_and_quantity: [] },
 			{ new: true }
 		);
+
 
 		return res.status(200).json({ message: 'Đặt hàng thành công!', OK: true, redirectTo: '/' });
 	}
@@ -138,11 +262,11 @@ const GetOrder = async (req, res, next) => {
 					})
 				}
 
-				res.render('order', { itemsInCartVM });
+				res.render('order', { itemsInCartVM, header: 'header', footer: 'footer', });
 				return;
 			}
 
-			res.render('order');
+			res.render('order', { header: 'header', footer: 'footer', });
 			return;
 		} else {
 			req.session.isLogin = false
@@ -317,11 +441,11 @@ const GetCart = async (req, res, next) => {
 					})
 				}
 
-				res.render('cart', { itemsInCartVM });
+				res.render('cart', { itemsInCartVM, header: 'header', footer: 'footer', });
 				return;
 			}
 
-			res.render('cart')
+			res.render('cart', { header: 'header', footer: 'footer', })
 			return
 		} else {
 			req.session.isLogin = false
@@ -359,7 +483,8 @@ const userController = {
 	GetOrder,
 	PostOrder,
 	GetListOrder,
-	GetOrderDetail
+	GetOrderDetail,
+	GetListAsset
 };
 
 export default userController;

@@ -24,6 +24,7 @@ const userSchema = new Schema({
 		default: 'user',
 	},
 	orders: [{ type: Schema.Types.ObjectId }],
+	assets: [{ type: String }],
 	isDeleted: { type: Boolean, default: false },
 });
 

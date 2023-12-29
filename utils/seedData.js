@@ -29,7 +29,6 @@ const shoes = {
         1: 'https://tiki.vn/api/v2/products/195866155',
         2: 'https://tiki.vn/api/v2/products/222593457',
         3: 'https://tiki.vn/api/v2/products/208639461',
-        4: 'https://tiki.vn/api/v2/products/215717966',
     },
     vans: {
         0: 'https://tiki.vn/api/v2/products/214488566',
@@ -40,8 +39,8 @@ const shoes = {
         5: 'https://tiki.vn/api/v2/products/263292243',
         6: 'https://tiki.vn/api/v2/products/202284013',
         7: 'https://tiki.vn/api/v2/products/262061529',
-        8: 'https://tiki.vn/api/v2/products/273349141',
-        9: 'https://tiki.vn/api/v2/products/271197889',
+        8: 'https://tiki.vn/api/v2/products/271197889',
+        9: 'https://tiki.vn/api/v2/products/74341746',
     },
     converse: {
         0: 'https://tiki.vn/api/v2/products/20008606',
@@ -49,6 +48,8 @@ const shoes = {
         2: 'https://tiki.vn/api/v2/products/7995370',
         3: 'https://tiki.vn/api/v2/products/247464513',
         4: 'https://tiki.vn/api/v2/products/7997237',
+        5: 'https://tiki.vn/api/v2/products/203911060',
+        6: 'https://tiki.vn/api/v2/products/173520819',
     }
 };
 

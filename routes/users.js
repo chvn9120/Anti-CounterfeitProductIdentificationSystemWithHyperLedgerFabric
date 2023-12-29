@@ -7,6 +7,7 @@ import userController from '../controller/userController.js';
 const router = Router();
 
 router.get('/detail-order/:_id', param('_id'), userController.GetOrderDetail);
+router.get('/list-assets', userController.GetListAsset);
 router.get('/list-orders', userController.GetListOrder);
 router.post('/order', userController.PostOrder);
 router.get('/order', query('p_id'), userController.GetOrder);

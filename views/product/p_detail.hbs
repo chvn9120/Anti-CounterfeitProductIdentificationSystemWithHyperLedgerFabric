@@ -6,7 +6,7 @@
         <div class="row gx-5 mb-4">
             <div class="col-lg-6 breadcumbs">
                 <a href="/"><i class="fas fa-arrow-left"></i> Home </a> <span>/</span> <a
-                    href="/product/{{product._id}}"> {{product.p_name}}</a>
+                    href="/product/{{product.p_id}}"> {{product.p_name}}</a>
             </div>
         </div>
         <div class="row gx-5">
@@ -54,7 +54,7 @@
                     <h4 class="title mb-3 p-id" hidden>
                         {{product.p_id}}
                     </h4>
-                    <h4 class="title mb-3 p-name">
+                    <h4 class="title mb-3 p-name text-break">
                         {{product.p_name}}
                     </h4>
                     {{!-- <div class="d-flex flex-row my-3">
@@ -72,11 +72,16 @@
                         <span class="text-success ms-2">In stock</span>
                     </div> --}}
 
-                    <div class="mb-3">
-                        <span class="h5">{{vndDisplay product.p_price}}</span>
-                    </div>
 
-                    <p>
+                    <div class="d-flex justify-content-between">
+                        <div class="mb-3">
+                            <span class="h5">{{vndDisplay product.p_price}}</span>
+                        </div>
+                        <h6 class="mb-3" style="margin-right: 20px;">
+                            Còn lại : {{product.p_quantity}} sản phẩm
+                        </h6>
+                    </div>
+                    <p class="text-break">
                         {{product.p_desc}}
                     </p>
 
@@ -377,7 +382,7 @@
     $('.btn-bn').click(function () {
         let pQty = $('.p-quantity').val()
         let p_id = $('.p-id').text().trim()
-        
+
         console.log('Btn buy now is clicked')
         console.log(pQty)
         console.log(p_id)

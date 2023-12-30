@@ -147,6 +147,7 @@ const PostOrder = async (req, res, next) => {
 		let arrayAssetsPaid = user.assets
 		let orders = user.orders
 
+
 		// Get all items in cart
 		for (const o of cart.product_and_quantity) {
 			let product = await ProductBase.findOne({ _id: o.pid }).lean()

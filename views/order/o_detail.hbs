@@ -6,6 +6,15 @@
     {{> (lookup . 'header') }}
     <section style="margin-top: 120px; background-color: #1a1814;">
         <div class="container">
+            <div class="row gx-5 mb-4">
+                <div class="col-lg-6 breadcumbs">
+                    <a href="/"><i class="fas fa-arrow-left"></i> Trang chủ </a>
+                    <span>/</span>
+                    <a href="/user/list-orders"> Danh sách hóa hơn </a>
+                    <span>/</span>
+                    <a href="/user/detail-order/{{order._id}}"> {{order._id}}</a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-8">
                     {{#if order}}

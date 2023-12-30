@@ -79,7 +79,7 @@ const GetDeleteAssetById = async (req, res, next) => {
 
 				const contract = network.getContract(chaincodeName);
 
-				let result = await contract.evaluateTransaction('DeleteAsset', asset_id);
+				let result = await contract.submitTransaction('DeleteAsset', asset_id);
 
 				res.status(200).json({ status: 200, OK: true, message: 'Xóa thành công asset ID = ' + asset_id })
 				return

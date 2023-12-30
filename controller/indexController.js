@@ -542,7 +542,6 @@ const indexController = {
 	GetRegister,
 	PostRegister,
 	GetAssetTransfer,
-	GetAllAssets
 };
 
 export default indexController;

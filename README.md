@@ -21,7 +21,9 @@
 ## Các bước để chạy project
 
 Bước 1: Mở VSC, liên kết VSC với Ubuntu
+
 Bước 2: Clone thư mục fabric-samples về tại đây
+
 Bước 3: Clone project này về
 
 >Cấu trúc thư mục mẫu
